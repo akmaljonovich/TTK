@@ -50,7 +50,7 @@ function validateTelegramInitData(initData) {
 }
 
 // Open routes that don't require auth (but still benefit from it)
-const openRoutes = ["/api/auth/login", "/api/auth/register", "/api/auth/profile", "/api/auth/reset-password"];
+const openRoutes = ["/api/auth/login", "/api/auth/register", "/api/auth/profile", "/api/auth/reset-password", "/api/auth/admin-contact"];
 
 app.use((req, res, next) => {
   // Static files don't need auth

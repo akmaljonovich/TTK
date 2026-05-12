@@ -121,6 +121,13 @@ var T_UZ = {
   roleUser: "Фойдаланувчи",
   roleTechnolog: "Технолог",
   roleAdmin: "Админ",
+  roleDescUser: "Техкарталар ва номенклатурани кўриш",
+  roleDescTechnolog: "Яратиш, таҳрирлаш, ўчириш",
+  roleDescAdmin: "Тўлиқ бошқарув ва роллар бошқариш",
+  setRole: "Лавозим",
+  roleChangeHint: "Лавозимни ўзгартириш учун админга мурожаат қилинг:",
+  roleNoAdmin: "Админ топилмади",
+  roleAdminHint: "Сиз админсиз. Роллар бошқариш — Админ панелда.",
   adminOrgInfo: "Ташкилот маълумотлари",
   adminOrgProducts: "Маҳсулотлар",
   adminOrgCards: "Техкарталар",
@@ -489,6 +496,13 @@ var T_RU = {
   roleUser: "Пользователь",
   roleTechnolog: "Технолог",
   roleAdmin: "Админ",
+  roleDescUser: "Просмотр техкарт и номенклатуры",
+  roleDescTechnolog: "Создание, редактирование, удаление",
+  roleDescAdmin: "Полное управление и роли",
+  setRole: "Должность",
+  roleChangeHint: "Для изменения должности обратитесь к администратору:",
+  roleNoAdmin: "Администратор не найден",
+  roleAdminHint: "Вы администратор. Управление ролями — в Админ-панели.",
   adminOrgInfo: "Информация об организации",
   adminOrgProducts: "Продукты",
   adminOrgCards: "Техкарты",
@@ -2892,6 +2906,75 @@ function exportExcel(card, allCards, allProds) {
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
+function RoleSection(props) {
+  var user = props.user;
+  var [admin, setAdmin] = useState(null);
+  var [loading, setLoading] = useState(true);
+  var roleLabels = { user: T.roleUser || "Фойдаланувчи", technolog: T.roleTechnolog || "Технолог", admin: T.roleAdmin || "Админ" };
+  var roleIcons = { user: "👤", technolog: "🔧", admin: "👑" };
+  var roleColors = { user: C.mid, technolog: C.blue, admin: C.acc };
+  var roleDescs = {
+    user: T.roleDescUser || "Техкарталар ва номенклатурани кўриш",
+    technolog: T.roleDescTechnolog || "Яратиш, таҳрирлаш, ўчириш",
+    admin: T.roleDescAdmin || "Тўлиқ бошқарув ва роллар",
+  };
+
+  useEffect(function() {
+    if (user.role !== "admin") {
+      api.getAdminContact().then(function(a) { setAdmin(a); }).catch(function() {}).finally(function() { setLoading(false); });
+    } else { setLoading(false); }
+  }, []);
+
+  var role = user.role || "user";
+  return (
+    <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 14, background: C.bg, borderRadius: 10, border: "1px solid " + roleColors[role] + "33" }}>
+        <span style={{ fontSize: 28 }}>{roleIcons[role]}</span>
+        <div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: roleColors[role] }}>{roleLabels[role]}</div>
+          <div style={{ fontSize: 11, color: C.mid, marginTop: 2 }}>{roleDescs[role]}</div>
+        </div>
+      </div>
+
+      {user.role !== "admin" && (
+        <div style={{ background: C.bg, borderRadius: 10, padding: 14, border: "1px solid " + C.border }}>
+          <p style={{ fontSize: 12, color: C.mid, marginBottom: 10 }}>
+            {T.roleChangeHint || "Лавозимни ўзгартириш учун админга мурожаат қилинг:"}
+          </p>
+          {loading ? (
+            <div style={{ textAlign: "center", padding: 10, color: C.dim }}>{T.loading}</div>
+          ) : admin ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 12, background: C.card, borderRadius: 8, border: "1px solid " + C.acc + "33" }}>
+              <div style={{ width: 40, height: 40, borderRadius: "50%", background: C.acc + "22", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 18 }}>👑</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{admin.name}</div>
+                {admin.position && <div style={{ fontSize: 11, color: C.mid }}>{admin.position}</div>}
+                {admin.workplace && <div style={{ fontSize: 11, color: C.dim }}>{admin.workplace}</div>}
+              </div>
+              {admin.tgId && !admin.tgId.startsWith("web_") && (
+                <a href={"https://t.me/" + admin.tgId} target="_blank" rel="noreferrer"
+                  style={{ padding: "6px 12px", background: "linear-gradient(135deg, #0088cc, #00aaff)", color: "#fff", borderRadius: 8, fontSize: 12, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 4 }}>
+                  Telegram
+                </a>
+              )}
+            </div>
+          ) : (
+            <p style={{ fontSize: 12, color: C.dim, textAlign: "center" }}>{T.roleNoAdmin || "Админ топилмади"}</p>
+          )}
+        </div>
+      )}
+
+      {user.role === "admin" && (
+        <p style={{ fontSize: 11, color: C.dim, textAlign: "center" }}>
+          {T.roleAdminHint || "Сиз админсиз. Бошқа фойдаланувчиларнинг ролларини Админ панелда ўзгартиришингиз мумкин."}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function SettingsPanel(props) {
   var user = props.user;
   var [section, setSection] = useState(null);
@@ -3073,6 +3156,12 @@ function SettingsPanel(props) {
             <p style={{ fontSize: 12, color: C.dim, textAlign: "center", marginTop: 10 }}>{T.setTariffSoon}</p>
           </div>
         )}
+      </div>
+
+      {/* Role */}
+      <div style={sectionStyle}>
+        {sectionHead(<IShield s={16} c={C.blue} />, T.setRole || "Лавозим", "role", C.blue)}
+        {section === "role" && <RoleSection user={user} />}
       </div>
 
       {/* Delete Data */}

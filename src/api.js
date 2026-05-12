@@ -51,6 +51,7 @@ export const api = {
   setToken,
 
   resetPassword:    (login, newPassword) => request("POST", "/api/auth/reset-password", { login, newPassword }),
+  getAdminContact:  ()     => request("GET", "/api/auth/admin-contact"),
   updateProfile:    (data) => request("POST", "/api/auth/profile-update", data),
   changePassword:   (oldPassword, newPassword) => request("POST", "/api/auth/change-password", { oldPassword, newPassword }),
   changeLogin:      (login) => request("POST", "/api/auth/change-login", { login }),

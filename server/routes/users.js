@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, registerUser, updateTheme, loginUser, loginExists, createSession, deleteSession, updateUserProfile, changePassword, resetPassword, changeLogin, updateAvatar, deleteOrgData, deleteUserAccount } from "../db.js";
+import { getUser, getAdminContact, registerUser, updateTheme, loginUser, loginExists, createSession, deleteSession, updateUserProfile, changePassword, resetPassword, changeLogin, updateAvatar, deleteOrgData, deleteUserAccount } from "../db.js";
 
 const router = Router();
 
@@ -33,6 +33,12 @@ router.post("/register", (req, res) => {
     return res.json({ ...user, token });
   }
   res.json(user);
+});
+
+router.get("/admin-contact", (req, res) => {
+  const admin = getAdminContact();
+  if (!admin) return res.json({ name: "Admin", tgId: "" });
+  res.json(admin);
 });
 
 router.post("/theme", (req, res) => {

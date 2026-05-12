@@ -160,6 +160,13 @@ function genId() {
   return Math.random().toString(36).slice(2, 10);
 }
 
+export function getAdminContact() {
+  const rows = queryAll("SELECT name, tg_id, position, workplace, login FROM users WHERE role = 'admin' LIMIT 1", []);
+  if (!rows.length) return null;
+  var a = rows[0];
+  return { name: a.name, tgId: a.tg_id, position: a.position, workplace: a.workplace };
+}
+
 // ── Users ──
 export function getUser(tgId) {
   const rows = queryAll("SELECT * FROM users WHERE tg_id = ?", [String(tgId)]);
