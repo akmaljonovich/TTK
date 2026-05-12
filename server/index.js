@@ -50,6 +50,10 @@ function validateTelegramInitData(initData) {
 }
 
 app.use((req, res, next) => {
+  // Static files don't need auth
+  if (!req.path.startsWith("/api")) {
+    return next();
+  }
   if (req.path === "/api/auth/login" || req.path === "/api/auth/register") {
     return next();
   }
