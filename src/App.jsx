@@ -118,6 +118,9 @@ var T_UZ = {
   adminRoleUser: "Ходим",
   adminDemote: "Олиб ташлаш",
   adminPromote: "Админ қилиш",
+  roleUser: "Фойдаланувчи",
+  roleTechnolog: "Технолог",
+  roleAdmin: "Админ",
   adminOrgInfo: "Ташкилот маълумотлари",
   adminOrgProducts: "Маҳсулотлар",
   adminOrgCards: "Техкарталар",
@@ -483,6 +486,9 @@ var T_RU = {
   adminRoleUser: "Сотрудник",
   adminDemote: "Снять",
   adminPromote: "Сделать админом",
+  roleUser: "Пользователь",
+  roleTechnolog: "Технолог",
+  roleAdmin: "Админ",
   adminOrgInfo: "Информация об организации",
   adminOrgProducts: "Продукты",
   adminOrgCards: "Техкарты",
@@ -2035,8 +2041,13 @@ function AdminPanel(props) {
     } catch(e) { console.error(e); }
   }
 
-  async function toggleRole(tgId, currentRole) {
-    var newRole = currentRole === "admin" ? "user" : "admin";
+  var roleOrder = ["user", "technolog", "admin"];
+  var roleLabels = { user: T.roleUser || "Фойдаланувчи", technolog: T.roleTechnolog || "Технолог", admin: T.roleAdmin || "Админ" };
+  var roleColors = { user: C.mid, technolog: C.blue, admin: C.acc };
+
+  async function cycleRole(tgId, currentRole) {
+    var idx = roleOrder.indexOf(currentRole);
+    var newRole = roleOrder[(idx + 1) % roleOrder.length];
     await api.adminSetRole(tgId, newRole);
     setUsers(function(prev) { return prev.map(function(u) { return u.tgId === tgId ? Object.assign({}, u, { role: newRole }) : u; }); });
   }
@@ -2155,11 +2166,10 @@ function AdminPanel(props) {
                     {u.city && <span style={{ fontSize: 11, color: C.dim }}>{u.city}</span>}
                   </div>
                 </div>
-                <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                <div style={{ display: "flex", gap: 6, flexShrink: 0, alignItems: "center" }}>
                   {u.orgId && <Btn v="ghost" sz="xs" onClick={function() { viewOrgDetails(u.orgId); }} sx={{ borderRadius: 8 }}><IBox s={11} /></Btn>}
-                  <Btn v={u.role === "admin" ? "danger" : "info"} sz="xs"
-                    onClick={function() { toggleRole(u.tgId, u.role); }} sx={{ borderRadius: 8 }}>
-                    {u.role === "admin" ? T.adminDemote : T.adminPromote}
+                  <Btn v="ghost" sz="xs" onClick={function() { cycleRole(u.tgId, u.role); }} sx={{ borderRadius: 8, border: "1px solid " + roleColors[u.role] + "44", color: roleColors[u.role] }}>
+                    {u.role === "admin" ? "👑" : u.role === "technolog" ? "🔧" : "👤"} {roleLabels[u.role]}
                   </Btn>
                 </div>
               </div>
@@ -3258,6 +3268,7 @@ export default function App() {
   );
 
   var isAdmin = user.role === "admin";
+  var canEdit = user.role === "admin" || user.role === "technolog";
 
   return (
     <>
@@ -3333,7 +3344,7 @@ export default function App() {
                     <input value={search} onChange={function(e) { setSearch(e.target.value); }} placeholder={T.searchPlaceholder}
                       style={{ background: C.bg, border: "1px solid " + C.border, borderRadius: 10, padding: "7px 11px 7px 28px", color: C.text, fontSize: 12, width: 160 }} />
                   </div>
-                  {tab === "nom" && (
+                  {canEdit && tab === "nom" && (
                     <>
                       <Btn className="nav-btn" v="ghost" sz="sm" onClick={function() { setModal({ type: "excelImport" }); }} title={T.btnImport}
                         sx={{ borderRadius: 10 }}>
@@ -3345,10 +3356,10 @@ export default function App() {
                       </Btn>
                     </>
                   )}
-                  <Btn className="nav-btn" onClick={function() { setModal({ type: tab === "cards" ? "newCard" : "newNom" }); }}
+                  {canEdit && <Btn className="nav-btn" onClick={function() { setModal({ type: tab === "cards" ? "newCard" : "newNom" }); }}
                     sx={{ borderRadius: 10 }}>
                     <IPlus /> <span className="nav-btn-text">{tab === "cards" ? T.btnNew : T.btnAdd}</span>
-                  </Btn>
+                  </Btn>}
                 </div>
               )}
             </div>
@@ -3407,10 +3418,10 @@ export default function App() {
                           </div>
                           {card.description && <p style={{ color: C.mid, fontSize: 11 }}>{card.description}</p>}
                         </div>
-                        <div style={{ display: "flex", gap: 4 }}>
+                        {canEdit && <div style={{ display: "flex", gap: 4 }}>
                           <Btn v="ghost" sz="xs" onClick={function() { setModal({ type: "editCard", data: card }); }}><IEdit s={11} /></Btn>
                           <Btn v="danger" sz="xs" onClick={function() { deleteCard(card.id); }}><ITrash s={11} /></Btn>
-                        </div>
+                        </div>}
                       </div>
                       <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
                         {card.outputQty && <Badge col={C.blue} sz={10}>{T.outputLabel}: {card.outputQty} {card.outputUnit}</Badge>}
@@ -3607,12 +3618,12 @@ export default function App() {
                             <td style={{ padding: "8px 11px" }}>
                               {fl ? <div style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 11, color: C.mid }}><IFolder s={10} c={C.mid} />{fl.name}</div> : <span style={{ color: C.dim, fontSize: 11 }}>—</span>}
                             </td>
-                            <td style={{ padding: "8px 11px" }}>
+                            {canEdit && <td style={{ padding: "8px 11px" }}>
                               <div style={{ display: "flex", gap: 4 }}>
                                 <Btn v="ghost" sz="xs" onClick={function() { setModal({ type: "editNom", data: p }); }}><IEdit s={11} /></Btn>
                                 <Btn v="danger" sz="xs" onClick={function() { deleteProd(p.id); }}><ITrash s={11} /></Btn>
                               </div>
-                            </td>
+                            </td>}
                           </tr>
                         );
                       })}

@@ -26,6 +26,9 @@ router.get("/orgs/:id", (req, res) => {
 
 router.post("/users/:tgId/role", (req, res) => {
   const { role } = req.body;
+  if (!["user", "technolog", "admin"].includes(role)) {
+    return res.status(400).json({ error: "Invalid role" });
+  }
   setUserRole(req.params.tgId, role);
   res.json({ ok: true });
 });

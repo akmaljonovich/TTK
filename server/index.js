@@ -123,10 +123,19 @@ function requireRegistered(req, res, next) {
   next();
 }
 
+// Role-based write protection: only technolog and admin can create/edit/delete
+function requireEditor(req, res, next) {
+  if (!req.user) return res.status(403).json({ error: "Not registered" });
+  if (req.method === "GET") return next(); // everyone can read
+  var role = req.user.role || "user";
+  if (role === "admin" || role === "technolog") return next();
+  return res.status(403).json({ error: "No permission" });
+}
+
 app.use("/api/catalog", requireRegistered, catalogRouter);
-app.use("/api/products", requireRegistered, productsRouter);
-app.use("/api/cards", requireRegistered, cardsRouter);
-app.use("/api/folders", requireRegistered, foldersRouter);
+app.use("/api/products", requireRegistered, requireEditor, productsRouter);
+app.use("/api/cards", requireRegistered, requireEditor, cardsRouter);
+app.use("/api/folders", requireRegistered, requireEditor, foldersRouter);
 
 app.get("/api/health", (req, res) => {
   res.json({ ok: true, tgId: req.tgId });
