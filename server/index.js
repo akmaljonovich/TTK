@@ -61,6 +61,9 @@ app.use((req, res, next) => {
   // Try Telegram initData
   const initData = req.headers["x-telegram-init-data"] || "";
   const tgId = validateTelegramInitData(initData);
+  if (initData && !tgId) {
+    console.log("[Auth] initData present but validation failed for", req.path);
+  }
   if (tgId) {
     req.tgId = tgId;
     const user = getUser(tgId);

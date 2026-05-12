@@ -3165,12 +3165,6 @@ export default function App() {
   );
 
   if (!user || !user.registered) {
-    if (isTelegram) return (
-      <>
-        <style>{buildCSS(C)}</style>
-        <RegForm onDone={onRegistered} />
-      </>
-    );
     return (
       <>
         <style>{buildCSS(C)}</style>
