@@ -4,15 +4,34 @@ import { getUser, registerUser, updateTheme, loginUser, loginExists, createSessi
 const router = Router();
 
 router.get("/profile", (req, res) => {
-  if (!req.tgId) return res.json({ registered: false });
+  if (!req.tgId) {
+    // Try Bearer token for web users (middleware may have already set user)
+    if (req.user) return res.json({ registered: true, ...req.user });
+    return res.json({ registered: false });
+  }
   const user = getUser(req.tgId);
   if (!user) return res.json({ registered: false });
   res.json({ registered: true, ...user });
 });
 
 router.post("/register", (req, res) => {
-  if (!req.tgId) return res.status(401).json({ error: "No auth context" });
-  const user = registerUser(req.tgId, req.body);
+  let tgId = req.tgId;
+  // If no Telegram auth, allow register with login/password (generate a unique ID)
+  if (!tgId) {
+    if (!req.body.login || !req.body.password) {
+      return res.status(400).json({ error: "Login and password required" });
+    }
+    if (loginExists(req.body.login)) {
+      return res.status(400).json({ error: "Login already taken" });
+    }
+    tgId = "web_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
+  }
+  const user = registerUser(tgId, req.body);
+  // Auto-create session for web users
+  if (!req.tgId && user) {
+    const token = createSession(user.id);
+    return res.json({ ...user, token });
+  }
   res.json(user);
 });
 

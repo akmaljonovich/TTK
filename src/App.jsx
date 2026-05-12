@@ -1285,22 +1285,35 @@ function LoginForm(props) {
 function RegForm(props) {
   var [f, setF] = useState({ name: "", age: "", city: "", position: "", workplace: "", purpose: "", login: "", password: "" });
   var [loading, setLoading] = useState(false);
+  var [error, setError] = useState("");
   function set(k) { return function(v) { setF(function(p) { return Object.assign({}, p, { [k]: v }); }); }; }
 
   async function submit() {
     if (!f.name.trim() || !f.workplace.trim()) return;
+    if (!isTg && (!f.login.trim() || !f.password)) {
+      setError(T.loginLogin + " / " + T.loginPassword + " required");
+      return;
+    }
     setLoading(true);
+    setError("");
     try {
-      var user = await api.register(f);
-      if (f.login && f.password) {
+      var res = await api.register(f);
+      // If server returned a token (web registration), save it
+      if (res.token) { api.setToken(res.token); }
+      // Also login to get session token
+      if (f.login && f.password && !res.token) {
         try { await api.login(f.login, f.password); } catch(e) {}
       }
-      props.onDone(user);
-    } catch(e) { console.error(e); }
+      props.onDone(res);
+    } catch(e) {
+      console.error(e);
+      setError(e.message || "Error");
+    }
     setLoading(false);
   }
 
-  var ready = f.name.trim() && f.workplace.trim();
+  var isTg = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+  var ready = f.name.trim() && f.workplace.trim() && (isTg || (f.login.trim() && f.password));
   return (
     <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", padding: 12 }}>
       <div className="reg-form" style={{ background: C.card, border: "1px solid " + C.border, borderRadius: 18, padding: 28, width: "100%", maxWidth: 420, boxShadow: "0 8px 40px " + C.bg + "88" }}>
@@ -1341,7 +1354,7 @@ function RegForm(props) {
           <div style={{ background: C.bg, borderRadius: 10, padding: "12px 12px 14px", border: "1px solid " + C.purple + "33" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
               <IShield s={13} c={C.purple} />
-              <span style={{ fontSize: 11, fontWeight: 700, color: C.purple, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.regLogin} / {T.regPassword}</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: C.purple, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.regLogin} / {T.regPassword} *</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               <input value={f.login} onChange={function(e) { set("login")(e.target.value); }} placeholder={T.regLoginPh}
@@ -1351,6 +1364,7 @@ function RegForm(props) {
             </div>
           </div>
 
+          {error && <p style={{ color: C.red, fontSize: 12, textAlign: "center" }}>{error}</p>}
           <button onClick={submit} disabled={loading || !ready}
             style={{ marginTop: 6, padding: "13px 20px", background: ready ? "linear-gradient(135deg, " + C.acc + ", " + C.orange + ")" : C.dim, color: "#000", border: "none", borderRadius: 10,
               fontFamily: "'Inter',sans-serif", fontWeight: 800, fontSize: 15, cursor: loading ? "wait" : (ready ? "pointer" : "not-allowed"),
