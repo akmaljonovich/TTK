@@ -2909,7 +2909,8 @@ function exportExcel(card, allCards, allProds) {
 function RoleSection(props) {
   var user = props.user;
   var [admin, setAdmin] = useState(null);
-  var [loading, setLoading] = useState(true);
+  var [loaded, setLoaded] = useState(false);
+
   var roleLabels = { user: T.roleUser || "Фойдаланувчи", technolog: T.roleTechnolog || "Технолог", admin: T.roleAdmin || "Админ" };
   var roleIcons = { user: "👤", technolog: "🔧", admin: "👑" };
   var roleColors = { user: C.mid, technolog: C.blue, admin: C.acc };
@@ -2919,20 +2920,36 @@ function RoleSection(props) {
     admin: T.roleDescAdmin || "Тўлиқ бошқарув ва роллар",
   };
 
-  useEffect(function() {
-    if (user.role !== "admin") {
-      api.getAdminContact().then(function(a) { setAdmin(a); }).catch(function() {}).finally(function() { setLoading(false); });
-    } else { setLoading(false); }
-  }, []);
+  function loadAdmin() {
+    if (!loaded && user.role !== "admin") {
+      setLoaded(true);
+      api.getAdminContact().then(function(a) { setAdmin(a); }).catch(function() {});
+    }
+  }
+
+  useEffect(loadAdmin, []);
 
   var role = user.role || "user";
+
+  function openAdminTg() {
+    if (admin && admin.tgId && !admin.tgId.startsWith("web_")) {
+      try {
+        if (window.Telegram && window.Telegram.WebApp) {
+          window.Telegram.WebApp.openTelegramLink("https://t.me/" + admin.tgId);
+        } else {
+          window.open("https://t.me/" + admin.tgId, "_blank");
+        }
+      } catch(e) { window.open("https://t.me/" + admin.tgId, "_blank"); }
+    }
+  }
+
   return (
     <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 14, background: C.bg, borderRadius: 10, border: "1px solid " + roleColors[role] + "33" }}>
-        <span style={{ fontSize: 28 }}>{roleIcons[role]}</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 14, background: C.bg, borderRadius: 10, border: "1px solid " + (roleColors[role] || C.mid) + "33" }}>
+        <span style={{ fontSize: 28 }}>{roleIcons[role] || "👤"}</span>
         <div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: roleColors[role] }}>{roleLabels[role]}</div>
-          <div style={{ fontSize: 11, color: C.mid, marginTop: 2 }}>{roleDescs[role]}</div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: roleColors[role] || C.mid }}>{roleLabels[role] || role}</div>
+          <div style={{ fontSize: 11, color: C.mid, marginTop: 2 }}>{roleDescs[role] || ""}</div>
         </div>
       </div>
 
@@ -2941,36 +2958,34 @@ function RoleSection(props) {
           <p style={{ fontSize: 12, color: C.mid, marginBottom: 10 }}>
             {T.roleChangeHint || "Лавозимни ўзгартириш учун админга мурожаат қилинг:"}
           </p>
-          {loading ? (
-            <div style={{ textAlign: "center", padding: 10, color: C.dim }}>{T.loading}</div>
-          ) : admin ? (
+          {admin ? (
             <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 12, background: C.card, borderRadius: 8, border: "1px solid " + C.acc + "33" }}>
-              <div style={{ width: 40, height: 40, borderRadius: "50%", background: C.acc + "22", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: 40, height: 40, borderRadius: "50%", background: C.acc + "22", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <span style={{ fontSize: 18 }}>👑</span>
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{admin.name}</div>
-                {admin.position && <div style={{ fontSize: 11, color: C.mid }}>{admin.position}</div>}
-                {admin.workplace && <div style={{ fontSize: 11, color: C.dim }}>{admin.workplace}</div>}
+                {admin.position ? <div style={{ fontSize: 11, color: C.mid }}>{admin.position}</div> : null}
+                {admin.workplace ? <div style={{ fontSize: 11, color: C.dim }}>{admin.workplace}</div> : null}
               </div>
-              {admin.tgId && !admin.tgId.startsWith("web_") && (
-                <a href={"https://t.me/" + admin.tgId} target="_blank" rel="noreferrer"
-                  style={{ padding: "6px 12px", background: "linear-gradient(135deg, #0088cc, #00aaff)", color: "#fff", borderRadius: 8, fontSize: 12, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 4 }}>
+              {admin.tgId && !admin.tgId.startsWith("web_") ? (
+                <button onClick={openAdminTg}
+                  style={{ padding: "6px 12px", background: "linear-gradient(135deg, #0088cc, #00aaff)", color: "#fff", borderRadius: 8, fontSize: 12, fontWeight: 700, border: "none", cursor: "pointer", flexShrink: 0 }}>
                   Telegram
-                </a>
-              )}
+                </button>
+              ) : null}
             </div>
           ) : (
-            <p style={{ fontSize: 12, color: C.dim, textAlign: "center" }}>{T.roleNoAdmin || "Админ топилмади"}</p>
+            <div style={{ textAlign: "center", padding: 10, color: C.dim }}>{T.loading}</div>
           )}
         </div>
       )}
 
-      {user.role === "admin" && (
+      {user.role === "admin" ? (
         <p style={{ fontSize: 11, color: C.dim, textAlign: "center" }}>
-          {T.roleAdminHint || "Сиз админсиз. Бошқа фойдаланувчиларнинг ролларини Админ панелда ўзгартиришингиз мумкин."}
+          {T.roleAdminHint || "Сиз админсиз. Роллар бошқариш — Админ панелда."}
         </p>
-      )}
+      ) : null}
     </div>
   );
 }
