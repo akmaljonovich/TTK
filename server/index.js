@@ -49,18 +49,18 @@ function validateTelegramInitData(initData) {
   }
 }
 
+// Open routes that don't require auth (but still benefit from it)
+const openRoutes = ["/api/auth/login", "/api/auth/register", "/api/auth/profile"];
+
 app.use((req, res, next) => {
   // Static files don't need auth
   if (!req.path.startsWith("/api")) {
     return next();
   }
-  if (req.path === "/api/auth/login" || req.path === "/api/auth/register") {
-    return next();
-  }
 
+  // Try Telegram initData
   const initData = req.headers["x-telegram-init-data"] || "";
   const tgId = validateTelegramInitData(initData);
-
   if (tgId) {
     req.tgId = tgId;
     const user = getUser(tgId);
@@ -71,6 +71,7 @@ app.use((req, res, next) => {
     return next();
   }
 
+  // Try Bearer token
   const authHeader = req.headers["authorization"] || "";
   if (authHeader.startsWith("Bearer ")) {
     const token = authHeader.slice(7);
@@ -83,6 +84,7 @@ app.use((req, res, next) => {
     }
   }
 
+  // Dev user (only in development)
   if (process.env.NODE_ENV !== "production" && req.headers["x-dev-user"]) {
     req.tgId = req.headers["x-dev-user"];
     const user = getUser(req.tgId);
@@ -93,8 +95,14 @@ app.use((req, res, next) => {
     return next();
   }
 
+  // No BOT_TOKEN configured = dev mode
   if (!BOT_TOKEN || BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
     req.tgId = "dev_user";
+    return next();
+  }
+
+  // Open routes pass through even without auth
+  if (openRoutes.includes(req.path)) {
     return next();
   }
 

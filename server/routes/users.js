@@ -4,12 +4,14 @@ import { getUser, registerUser, updateTheme, loginUser, loginExists, createSessi
 const router = Router();
 
 router.get("/profile", (req, res) => {
+  if (!req.tgId) return res.json({ registered: false });
   const user = getUser(req.tgId);
   if (!user) return res.json({ registered: false });
   res.json({ registered: true, ...user });
 });
 
 router.post("/register", (req, res) => {
+  if (!req.tgId) return res.status(401).json({ error: "No auth context" });
   const user = registerUser(req.tgId, req.body);
   res.json(user);
 });
