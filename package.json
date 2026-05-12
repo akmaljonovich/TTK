@@ -1,0 +1,30 @@
+{
+  "name": "techcards-telegram",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:server": "node server/index.js",
+    "dev:bot": "node bot/index.js",
+    "dev:client": "vite",
+    "build": "vite build",
+    "start": "concurrently \"node server/index.js\" \"node bot/index.js\"",
+    "dev": "concurrently \"node server/index.js\" \"node bot/index.js\" \"vite\"",
+    "prod": "vite build && NODE_ENV=production concurrently \"node server/index.js\" \"node bot/index.js\""
+  },
+  "dependencies": {
+    "concurrently": "^9.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.14.1",
+    "telegraf": "^4.16.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0"
+  }
+}
