@@ -335,6 +335,14 @@ var T_UZ = {
   loginPh: "Логинингизни киритинг",
   passwordPh: "Паролингизни киритинг",
   logoutBtn: "Чиқиш",
+  forgotPassword: "Паролни унутдингизми?",
+  resetTitle: "Паролни тиклаш",
+  resetNewPass: "Янги парол",
+  resetBtn: "Паролни янгилаш",
+  resetBack: "← Кириш",
+  resetSuccess: "Парол янгиланди! Янги парол билан киринг.",
+  resetError: "Фойдаланувчи топилмади",
+  resetPassShort: "Парол камида 4 та белги",
   tabSettings: "Созламалар",
   settingsTitle: "Созламалар",
   regLogin: "Логин",
@@ -692,6 +700,14 @@ var T_RU = {
   loginPh: "Введите логин",
   passwordPh: "Введите пароль",
   logoutBtn: "Выход",
+  forgotPassword: "Забыли пароль?",
+  resetTitle: "Восстановление пароля",
+  resetNewPass: "Новый пароль",
+  resetBtn: "Обновить пароль",
+  resetBack: "← Войти",
+  resetSuccess: "Пароль обновлён! Войдите с новым паролем.",
+  resetError: "Пользователь не найден",
+  resetPassShort: "Пароль мин. 4 символа",
   tabSettings: "Настройки",
   settingsTitle: "Настройки",
   regLogin: "Логин",
@@ -1238,6 +1254,9 @@ function LoginForm(props) {
   var [password, setPassword] = useState("");
   var [loading, setLoading] = useState(false);
   var [error, setError] = useState("");
+  var [resetMode, setResetMode] = useState(false);
+  var [newPass, setNewPass] = useState("");
+  var [resetMsg, setResetMsg] = useState("");
 
   async function submit() {
     if (!login.trim() || !password) return;
@@ -1251,7 +1270,26 @@ function LoginForm(props) {
     setLoading(false);
   }
 
+  async function doReset() {
+    if (!login.trim() || !newPass || newPass.length < 4) {
+      setError(T.resetPassShort || "Min 4 characters");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      await api.resetPassword(login.trim(), newPass);
+      setResetMsg(T.resetSuccess || "Пароль обновлён! Войдите с новым паролем.");
+      setResetMode(false);
+      setPassword("");
+    } catch(e) {
+      setError(T.resetError || "Пользователь не найден");
+    }
+    setLoading(false);
+  }
+
   var ready = login.trim() && password;
+  var resetReady = login.trim() && newPass && newPass.length >= 4;
   return (
     <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", padding: 12 }}>
       <div className="reg-form" style={{ background: C.card, border: "1px solid " + C.border, borderRadius: 18, padding: 28, width: "100%", maxWidth: 420, boxShadow: "0 8px 40px " + C.bg + "88" }}>
@@ -1260,22 +1298,44 @@ function LoginForm(props) {
             <ILayers s={24} c="#000" />
           </div>
           <h2 className="reg-title" style={{ fontSize: 22, fontWeight: 800, color: C.text }}>{T.appTitle}</h2>
-          <p style={{ fontSize: 12, color: C.mid, marginTop: 4 }}>{T.loginTitle}</p>
+          <p style={{ fontSize: 12, color: C.mid, marginTop: 4 }}>{resetMode ? (T.resetTitle || "Паролни тиклаш") : T.loginTitle}</p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <Inp label={T.loginLogin} value={login} onChange={setLogin} placeholder={T.loginPh} />
-          <Inp label={T.loginPassword} value={password} onChange={setPassword} placeholder={T.passwordPh} type="password" />
-          {error && <p style={{ color: C.red, fontSize: 12, textAlign: "center" }}>{error}</p>}
-          <button onClick={submit} disabled={loading || !ready}
-            style={{ marginTop: 6, padding: "13px 20px", background: ready ? "linear-gradient(135deg, " + C.acc + ", " + C.orange + ")" : C.dim, color: "#000", border: "none", borderRadius: 10,
-              fontFamily: "'Inter',sans-serif", fontWeight: 800, fontSize: 15, cursor: loading ? "wait" : (ready ? "pointer" : "not-allowed"),
-              opacity: ready ? 1 : 0.5, boxShadow: ready ? "0 4px 15px " + C.acc + "44" : "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-            {loading ? <><div style={{ width: 16, height: 16, border: "2px solid #00000033", borderTopColor: "#000", borderRadius: "50%", animation: "spin .6s linear infinite" }} /> {T.loading}</> : <><ICheck s={15} c="#000" /> {T.loginBtn}</>}
-          </button>
-          <p style={{ textAlign: "center", fontSize: 12, color: C.mid }}>
-            {T.loginNoAccount + " "}
-            <span onClick={props.onSwitch} style={{ color: C.acc, cursor: "pointer", fontWeight: 700 }}>{T.loginCreateAccount}</span>
-          </p>
+          {resetMode ? (
+            <>
+              <Inp label={T.resetNewPass || "Янги пароль"} value={newPass} onChange={setNewPass} placeholder="Мин. 4 символ" type="password" />
+              {error && <p style={{ color: C.red, fontSize: 12, textAlign: "center" }}>{error}</p>}
+              <button onClick={doReset} disabled={loading || !resetReady}
+                style={{ marginTop: 6, padding: "13px 20px", background: resetReady ? "linear-gradient(135deg, " + C.purple + ", " + C.blue + ")" : C.dim, color: "#fff", border: "none", borderRadius: 10,
+                  fontFamily: "'Inter',sans-serif", fontWeight: 800, fontSize: 15, cursor: loading ? "wait" : (resetReady ? "pointer" : "not-allowed"),
+                  opacity: resetReady ? 1 : 0.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                {loading ? <><div style={{ width: 16, height: 16, border: "2px solid #ffffff33", borderTopColor: "#fff", borderRadius: "50%", animation: "spin .6s linear infinite" }} /> {T.loading}</> : (T.resetBtn || "Паролни янгилаш")}
+              </button>
+              <p style={{ textAlign: "center", fontSize: 12, color: C.mid }}>
+                <span onClick={function() { setResetMode(false); setError(""); }} style={{ color: C.acc, cursor: "pointer", fontWeight: 700 }}>{T.resetBack || "← Кириш"}</span>
+              </p>
+            </>
+          ) : (
+            <>
+              <Inp label={T.loginPassword} value={password} onChange={setPassword} placeholder={T.passwordPh} type="password" />
+              {error && <p style={{ color: C.red, fontSize: 12, textAlign: "center" }}>{error}</p>}
+              {resetMsg && <p style={{ color: C.green, fontSize: 12, textAlign: "center" }}>{resetMsg}</p>}
+              <button onClick={submit} disabled={loading || !ready}
+                style={{ marginTop: 6, padding: "13px 20px", background: ready ? "linear-gradient(135deg, " + C.acc + ", " + C.orange + ")" : C.dim, color: "#000", border: "none", borderRadius: 10,
+                  fontFamily: "'Inter',sans-serif", fontWeight: 800, fontSize: 15, cursor: loading ? "wait" : (ready ? "pointer" : "not-allowed"),
+                  opacity: ready ? 1 : 0.5, boxShadow: ready ? "0 4px 15px " + C.acc + "44" : "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                {loading ? <><div style={{ width: 16, height: 16, border: "2px solid #00000033", borderTopColor: "#000", borderRadius: "50%", animation: "spin .6s linear infinite" }} /> {T.loading}</> : <><ICheck s={15} c="#000" /> {T.loginBtn}</>}
+              </button>
+              <p style={{ textAlign: "center", fontSize: 12, color: C.mid }}>
+                <span onClick={function() { setResetMode(true); setError(""); setResetMsg(""); }} style={{ color: C.purple, cursor: "pointer", fontWeight: 600, fontSize: 11 }}>{T.forgotPassword || "Паролни унутдингизми?"}</span>
+              </p>
+              <p style={{ textAlign: "center", fontSize: 12, color: C.mid }}>
+                {T.loginNoAccount + " "}
+                <span onClick={props.onSwitch} style={{ color: C.acc, cursor: "pointer", fontWeight: 700 }}>{T.loginCreateAccount}</span>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, registerUser, updateTheme, loginUser, loginExists, createSession, deleteSession, updateUserProfile, changePassword, changeLogin, updateAvatar, deleteOrgData, deleteUserAccount } from "../db.js";
+import { getUser, registerUser, updateTheme, loginUser, loginExists, createSession, deleteSession, updateUserProfile, changePassword, resetPassword, changeLogin, updateAvatar, deleteOrgData, deleteUserAccount } from "../db.js";
 
 const router = Router();
 
@@ -53,6 +53,15 @@ router.post("/login", (req, res) => {
 
   const token = createSession(user.id);
   res.json({ ok: true, token, user });
+});
+
+router.post("/reset-password", (req, res) => {
+  const { login, newPassword } = req.body;
+  if (!login || !newPassword) return res.status(400).json({ error: "Missing data" });
+  if (newPassword.length < 4) return res.status(400).json({ error: "Password too short" });
+  const result = resetPassword(login, newPassword);
+  if (!result.ok) return res.status(404).json({ error: result.error });
+  res.json({ ok: true });
 });
 
 router.post("/logout", (req, res) => {

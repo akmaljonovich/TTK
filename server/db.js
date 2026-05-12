@@ -5,7 +5,8 @@ import { dirname, join } from "path";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dataDir = join(__dirname, "..", "data");
+// Use Railway volume /data in production, otherwise local ./data
+const dataDir = process.env.NODE_ENV === "production" && existsSync("/data") ? "/data" : join(__dirname, "..", "data");
 const uploadsDir = join(dataDir, "uploads");
 const dbPath = join(dataDir, "techcards.db");
 
@@ -257,6 +258,13 @@ export function changePassword(tgId, oldPassword, newPassword) {
   if (!rows.length) return { ok: false, error: "user_not_found" };
   if (rows[0].password_hash && rows[0].password_hash !== hashPassword(oldPassword)) return { ok: false, error: "wrong_password" };
   run("UPDATE users SET password_hash=? WHERE tg_id=?", [hashPassword(newPassword), String(tgId)]);
+  return { ok: true };
+}
+
+export function resetPassword(login, newPassword) {
+  var rows = queryAll("SELECT tg_id FROM users WHERE login = ?", [login]);
+  if (!rows.length) return { ok: false, error: "user_not_found" };
+  run("UPDATE users SET password_hash=? WHERE login=?", [hashPassword(newPassword), login]);
   return { ok: true };
 }
 
