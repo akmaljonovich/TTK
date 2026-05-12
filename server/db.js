@@ -192,11 +192,14 @@ export function registerUser(tgId, data) {
 
   const orgId = genId();
   const userId = genId();
+  // First user becomes admin automatically
+  const userCount = queryAll("SELECT COUNT(*) as cnt FROM users", [])[0].cnt;
+  const role = userCount === 0 ? "admin" : "user";
   run("INSERT INTO organizations (id, name) VALUES (?,?)", [orgId, data.workplace || "Организация"]);
   run(`INSERT INTO users (id, tg_id, org_id, name, age, city, position, workplace, purpose, role, theme, registered, login, password_hash)
     VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?)`,
     [userId, String(tgId), orgId, data.name, +data.age || 0, data.city || "",
-     data.position || "", data.workplace || "", data.purpose || "", "user", "dark",
+     data.position || "", data.workplace || "", data.purpose || "", role, "dark",
      data.login || null, data.password ? hashPassword(data.password) : ""]);
   return getUser(tgId);
 }
