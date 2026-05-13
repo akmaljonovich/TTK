@@ -20,9 +20,10 @@ async function request(method, path, body) {
   const initData = getInitData();
   const token = getToken();
 
+  // Send ALL available auth headers — server tries each in order
   if (initData) headers["X-Telegram-Init-Data"] = initData;
-  else if (token) headers["Authorization"] = "Bearer " + token;
-  else headers["X-Dev-User"] = "dev_user";
+  if (token) headers["Authorization"] = "Bearer " + token;
+  if (!initData && !token) headers["X-Dev-User"] = "dev_user";
 
   const res = await fetch(path, {
     method,
@@ -79,6 +80,13 @@ export const api = {
   importDish:      (dish) => request("POST", "/api/catalog/import-dish", { dish }),
   importExcel:     (rows) => request("POST", "/api/catalog/import-excel", { rows }),
   batchPrices:     (updates) => request("POST", "/api/catalog/batch-prices", { updates }),
+
+  // Organizations
+  getOrgs:       ()       => request("GET", "/api/orgs"),
+  createOrg:     (name, type) => request("POST", "/api/orgs", { name, type }),
+  switchOrg:     (orgId)  => request("POST", "/api/orgs/switch", { orgId }),
+  updateOrg:     (id, name, type) => request("PUT", "/api/orgs/" + id, { name, type }),
+  deleteOrg:     (id)     => request("DELETE", "/api/orgs/" + id),
 
   adminGetOrgs:  ()       => request("GET", "/api/admin/orgs"),
   adminGetUsers: ()       => request("GET", "/api/admin/users"),

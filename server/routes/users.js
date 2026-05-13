@@ -1,17 +1,23 @@
 import { Router } from "express";
-import { getUser, getAdminContact, registerUser, updateTheme, loginUser, loginExists, createSession, deleteSession, updateUserProfile, changePassword, resetPassword, changeLogin, updateAvatar, deleteOrgData, deleteUserAccount } from "../db.js";
+import { getUser, getAdminContact, registerUser, updateTheme, loginUser, loginExists, createSession, deleteSession, updateUserProfile, changePassword, resetPassword, changeLogin, updateAvatar, deleteOrgData, deleteUserAccount, linkTelegramId } from "../db.js";
 
 const router = Router();
 
 router.get("/profile", (req, res) => {
   if (!req.tgId) {
-    // Try Bearer token for web users (middleware may have already set user)
+    // Bearer token already resolved user in middleware
     if (req.user) return res.json({ registered: true, ...req.user });
     return res.json({ registered: false });
   }
-  const user = getUser(req.tgId);
+  const user = req.user || getUser(req.tgId);
   if (!user) return res.json({ registered: false });
-  res.json({ registered: true, ...user });
+  // Only create session if client doesn't already have one (no Bearer token)
+  const authHeader = req.headers["authorization"] || "";
+  if (authHeader.startsWith("Bearer ")) {
+    return res.json({ registered: true, ...user });
+  }
+  const token = createSession(user.id);
+  res.json({ registered: true, ...user, token });
 });
 
 router.post("/register", (req, res) => {
@@ -27,8 +33,8 @@ router.post("/register", (req, res) => {
     tgId = "web_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
   }
   const user = registerUser(tgId, req.body);
-  // Auto-create session for web users
-  if (!req.tgId && user) {
+  // Always create session token so user stays logged in
+  if (user) {
     const token = createSession(user.id);
     return res.json({ ...user, token });
   }
@@ -54,8 +60,15 @@ router.post("/login", (req, res) => {
   const { login, password } = req.body;
   if (!login || !password) return res.status(400).json({ error: "Missing credentials" });
 
-  const user = loginUser(login, password);
+  let user = loginUser(login, password);
   if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+  // If user logged in from Telegram, link their Telegram ID to this account
+  // This replaces web_* tgId with real Telegram numeric ID
+  if (req.tgId && req.tgId !== user.tgId && !req.tgId.startsWith("web_")) {
+    linkTelegramId(user.tgId, req.tgId);
+    user = getUser(req.tgId); // refresh with new tgId
+  }
 
   const token = createSession(user.id);
   res.json({ ok: true, token, user });

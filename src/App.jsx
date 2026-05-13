@@ -4,18 +4,42 @@ import { api } from "./api.js";
 
 // ─── Color Themes ────────────────────────────────────────────────────────────
 var DARK = {
-  bg: "#0f1117", sur: "#1a1d2e88", card: "#1a1d2e", border: "#2a2f48", borderH: "#3d4466",
-  acc: "#e8a838", text: "#e2e8f5", mid: "#7b89b0", dim: "#404867",
-  green: "#4ade80", red: "#fb7185", blue: "#7cacf8",
-  purple: "#b197fc", orange: "#fbbf6e", teal: "#5eead4",
-  cardHover: "#1e2238", btnHover: "#ffffff12",
+  bg: "#0b0d14",        // Глубокий тёплый фон
+  sur: "#12152080",      // Стеклянная поверхность
+  card: "#141824",       // Карточка с теплом
+  border: "#1e2340",     // Мягкая граница
+  borderH: "#2d3558",    // Ховер граница
+  acc: "#f0b24a",        // Тёплое золото
+  text: "#e6eaf4",       // Мягкий светлый текст
+  mid: "#7d88a6",        // Средний текст
+  dim: "#363d58",        // Приглушённый
+  green: "#5cd4a0",      // Мятный зелёный
+  red: "#f07070",        // Мягкий коралл
+  blue: "#6a9ef5",       // Спокойный голубой
+  purple: "#a78bfa",     // Лаванда
+  orange: "#f5c162",     // Тёплый янтарь
+  teal: "#4ecdc4",       // Бирюзовый
+  cardHover: "#1a2038",  // Ховер карточки
+  btnHover: "#ffffff0a", // Призрачный ховер
 };
 var LIGHT = {
-  bg: "#f4f6fa", sur: "#ffffff99", card: "#ffffff", border: "#e2e5ec", borderH: "#b8bdd0",
-  acc: "#cf8a1e", text: "#2d3348", mid: "#727d96", dim: "#adb5c5",
-  green: "#10b981", red: "#f43f5e", blue: "#4f8ef7",
-  purple: "#8b5cf6", orange: "#f59e0b", teal: "#14b8a6",
-  cardHover: "#f8f9fc", btnHover: "#00000008",
+  bg: "#f5f6fb",         // Чистый серо-голубой
+  sur: "#ffffffcc",      // Полупрозрачный белый
+  card: "#ffffff",       // Белый
+  border: "#e2e6f0",     // Нежная граница
+  borderH: "#c4cad8",    // Ховер граница
+  acc: "#d4960e",        // Глубокое золото
+  text: "#1a2036",       // Тёмный текст
+  mid: "#64748b",        // Средний текст
+  dim: "#b0b8ca",        // Приглушённый
+  green: "#16a34a",      // Свежий зелёный
+  red: "#ef4444",        // Чистый красный
+  blue: "#3b82f6",       // Яркий голубой
+  purple: "#8b5cf6",     // Фиолетовый
+  orange: "#e8940f",     // Насыщенный оранжевый
+  teal: "#0d9488",       // Глубокий бирюзовый
+  cardHover: "#eef1f8",  // Нежный ховер
+  btnHover: "#0000000a", // Призрачный ховер
 };
 var C = DARK;
 
@@ -393,6 +417,37 @@ var T_UZ = {
   setConfirmWord: "ЎЧИРИШ",
   excelColType: "Тип (Товар/Заготовка...)",
   excelThType: "Тип",
+  // Org management
+  orgManage: "Корхоналар",
+  orgAdd: "Корхона қўшиш",
+  orgName: "Корхона номи",
+  orgNamePh: "Масалан: Ресторан Осиё",
+  orgType: "Йўналиш",
+  orgTypeFood: "Озиқ-овқат",
+  orgTypeMfg: "Ишлаб чиқариш",
+  orgTypeConst: "Қурилиш",
+  orgSwitch: "Алмаштириш",
+  orgCurrent: "Жорий",
+  orgCreate: "Яратиш",
+  orgDelete: "Ўчириш",
+  orgDeleteWarn: "Корхона ва барча маълумотлари ўчирилади!",
+  orgEmpty: "Корхона йўқ. Янги яратинг.",
+  orgSelectType: "Корхона йўналишини танланг",
+  // Dynamic labels for non-food
+  specLabel: "Спецификациялар",
+  specNew: "Янги спецификация",
+  specEdit: "Спецификацияни таҳрирлаш",
+  specNoItems: "Спецификациялар ҳали йўқ",
+  specCreateFirst: "Биринчисини яратиш",
+  specDetailSub: "Тўлиқ таркиб дарахти",
+  specName: "Спецификация номи",
+  specNamePh: "Масалан: Маҳсулот А спецификацияси",
+  specNewSub: "Маҳсулотни бошқа спецификацияларда ишлатиб бўлмайди",
+  // Manufacturing nom types
+  ntHomAshyo: "Хом ашё",
+  ntTayyorMahsulot: "Тайёр маҳсулот",
+  ntShortHomAshyo: "ХА",
+  ntShortTayyorMahsulot: "ТМ",
 };
 
 var T_RU = {
@@ -768,37 +823,89 @@ var T_RU = {
   setConfirmWord: "УДАЛИТЬ",
   excelColType: "Тип (Товар/Заготовка...)",
   excelThType: "Тип",
+  // Org management
+  orgManage: "Организации",
+  orgAdd: "Добавить организацию",
+  orgName: "Название организации",
+  orgNamePh: "Напр.: Ресторан Азия",
+  orgType: "Направление",
+  orgTypeFood: "Общепит / Еда",
+  orgTypeMfg: "Производство",
+  orgTypeConst: "Строительство",
+  orgSwitch: "Переключить",
+  orgCurrent: "Текущая",
+  orgCreate: "Создать",
+  orgDelete: "Удалить",
+  orgDeleteWarn: "Организация и все данные будут удалены!",
+  orgEmpty: "Нет организаций. Создайте новую.",
+  orgSelectType: "Выберите направление",
+  // Dynamic labels for non-food
+  specLabel: "Спецификации",
+  specNew: "Новая спецификация",
+  specEdit: "Редактировать спецификацию",
+  specNoItems: "Спецификаций пока нет",
+  specCreateFirst: "Создать первую",
+  specDetailSub: "Полное дерево состава",
+  specName: "Название спецификации",
+  specNamePh: "Напр.: Спецификация продукта А",
+  specNewSub: "Продукт нельзя использовать в других спецификациях",
+  // Manufacturing nom types
+  ntHomAshyo: "Сырьё",
+  ntTayyorMahsulot: "Готовая продукция",
+  ntShortHomAshyo: "СР",
+  ntShortTayyorMahsulot: "ГП",
 };
 
 var T = T_UZ;
 
-function getT() { return T; }
+// ─── Org Type Helpers ─────────────────────────────────────────────────────────
+var _currentOrgType = "food";
 
 function getNT() {
+  if (_currentOrgType === "food") {
+    return {
+      tovar:        { label: T.ntTovar,        short: T.ntShortTovar,        color: "#60a5fa" },
+      zagotovka:    { label: T.ntZagotovka,    short: T.ntShortZagotovka,    color: "#f59e0b" },
+      polufabrikat: { label: T.ntPolufabrikat,  short: T.ntShortPolufabrikat, color: "#fb923c" },
+      gotovaya:     { label: T.ntGotovaya,     short: T.ntShortGotovaya,     color: "#34d399" },
+      blyudo:       { label: T.ntBlyudo,       short: T.ntShortBlyudo,       color: "#a78bfa" },
+    };
+  }
+  // manufacturing / construction
   return {
-    tovar:        { label: T.ntTovar,        short: T.ntShortTovar,        color: "#60a5fa" },
-    zagotovka:    { label: T.ntZagotovka,    short: T.ntShortZagotovka,    color: "#f59e0b" },
-    polufabrikat: { label: T.ntPolufabrikat,  short: T.ntShortPolufabrikat, color: "#fb923c" },
-    gotovaya:     { label: T.ntGotovaya,     short: T.ntShortGotovaya,     color: "#34d399" },
-    blyudo:       { label: T.ntBlyudo,       short: T.ntShortBlyudo,       color: "#a78bfa" },
+    tovar:          { label: T.ntTovar,           short: T.ntShortTovar,           color: "#60a5fa" },
+    hom_ashyo:      { label: T.ntHomAshyo,        short: T.ntShortHomAshyo,        color: "#f59e0b" },
+    tayyor_mahsulot:{ label: T.ntTayyorMahsulot,  short: T.ntShortTayyorMahsulot,  color: "#34d399" },
   };
 }
+
+function getNtKeys() {
+  if (_currentOrgType === "food") return ["tovar", "zagotovka", "polufabrikat", "gotovaya", "blyudo"];
+  return ["tovar", "hom_ashyo", "tayyor_mahsulot"];
+}
+function getComplexKeys() {
+  if (_currentOrgType === "food") return ["zagotovka", "polufabrikat", "gotovaya", "blyudo"];
+  return ["hom_ashyo", "tayyor_mahsulot"];
+}
+function isFood() { return _currentOrgType === "food"; }
+function getCardLabel() { return isFood() ? T.tabCards : T.specLabel; }
+function getNewCardLabel() { return isFood() ? T.modalNewCard : T.specNew; }
+function getEditCardLabel() { return isFood() ? T.modalEditCard : T.specEdit; }
+
 function getPROCESSES() {
   return [T.processVarka, T.processZharka, T.processZapekanie, T.processSmeshan,
     T.processNarezka, T.processMarinov, T.processOhlazh, T.processZamorozka,
     T.processPasserovka, T.processTushenie, T.processBlansh, T.processVzbiv, T.processDrugoe];
 }
 
-// ─── Nomenclature Types (dynamic from T) ─────────────────────────────────────
-var NT_KEYS = ["tovar", "zagotovka", "polufabrikat", "gotovaya", "blyudo"];
-var COMPLEX = ["zagotovka", "polufabrikat", "gotovaya", "blyudo"];
 var UNITS = ["кг", "г", "л", "мл", "шт", "уп", "порц", "пач"];
 
 function buildCSS(t) {
   return "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');" +
     "*{box-sizing:border-box;margin:0;padding:0}" +
     "body{background:" + t.bg + ";color:" + t.text + ";font-family:'Inter',sans-serif;min-height:100vh}" +
-    "::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:" + t.border + ";border-radius:3px}::-webkit-scrollbar-thumb:hover{background:" + t.acc + "66}" +
+    "::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:" + t.dim + "55;border-radius:4px}::-webkit-scrollbar-thumb:hover{background:" + t.acc + "55}" +
+    "::selection{background:" + t.acc + "33;color:" + t.text + "}" +
     "input,select,textarea{font-family:'Inter',sans-serif;outline:none;font-size:16px!important}" +
     "input:focus,select:focus,textarea:focus{border-color:" + t.acc + "!important}" +
     ".mono{font-family:'Inter',sans-serif}" +
@@ -868,7 +975,7 @@ function buildCSS(t) {
     // ── Badges ──
     ".badge-pop{animation:popIn .35s cubic-bezier(.22,1,.36,1);animation-fill-mode:both}" +
     // ── Modals ──
-    ".modal-wrap{animation:fadeIn .15s ease}" +
+    ".modal-wrap{animation:none}" +
     ".modal-inner{animation:slideUpModal .3s cubic-bezier(.22,1,.36,1)!important;animation-fill-mode:both}" +
     // ── Hover effects ──
     ".hover-lift{transition:all .25s cubic-bezier(.22,1,.36,1)}" +
@@ -923,7 +1030,7 @@ function buildCSS(t) {
       ".form-4col{grid-template-columns:1fr 1fr!important}" +
       ".ing-row{grid-template-columns:1fr!important;gap:8px!important}" +
       ".ing-row>*{min-width:0!important}" +
-      ".modal-inner{max-width:100%!important;max-height:100vh!important;border-radius:14px 14px 0 0!important;margin:0!important;margin-top:auto!important}" +
+      ".modal-inner{max-width:100%!important;max-height:100vh!important;height:auto!important;min-height:0!important;border-radius:12px 12px 0 0!important;margin:0!important}" +
       ".modal-wrap{padding:0!important;align-items:flex-end!important}" +
       ".nom-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}" +
       ".nom-table table{min-width:800px}" +
@@ -959,22 +1066,6 @@ function AnimNum(props) {
     requestAnimationFrame(step);
   }, [target]);
   return <span className="count-num">{val}</span>;
-}
-
-// Staggered list — each child appears with delay
-function StaggerList(props) {
-  var anim = props.anim || "slide-up";
-  var items = props.children;
-  if (!Array.isArray(items)) items = [items];
-  return items.map(function(child, i) {
-    if (!child) return null;
-    var delay = (props.baseDelay || 0.04) * i;
-    return (
-      <div key={child.key || i} className={anim} style={{ animationDelay: delay + "s", animationFillMode: "both" }}>
-        {child}
-      </div>
-    );
-  });
 }
 
 // Tab content wrapper — re-animates when key changes
@@ -1153,7 +1244,6 @@ function IShield(p) { return <Svg s={p.s} c={p.c} d="M12 22s8-4 8-10V5l-8-3-8 3v
 function ICam(p)    { return <Svg s={p.s} c={p.c} d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />; }
 function IGlobe(p)  { return <Svg s={p.s} c={p.c} d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z" />; }
 function IFire(p)   { return <Svg s={p.s} c={p.c} d="M12 22c3.5 0 7-2 7-7 0-3-1.5-4.5-3-6.5-.7-.9-1.5-2-2-3.5-.5 1.5-1.3 2.6-2 3.5-1.5 2-3 3.5-3 6.5 0 5 3.5 7 7 7z" />; }
-function IClip(p)   { return <Svg s={p.s} c={p.c} d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />; }
 function ILogout(p) { return <Svg s={p.s} c={p.c} d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />; }
 function IGear(p)   { return <Svg s={p.s} c={p.c} d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />; }
 
@@ -1249,8 +1339,8 @@ function Badge(props) {
 function Modal(props) {
   return (
     <div className="modal-wrap" onClick={function(e) { if (e.target === e.currentTarget) props.onClose(); }}
-      style={{ position: "fixed", inset: 0, background: "#000000cc", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", zIndex: 300,
-        display: "flex", alignItems: "center", justifyContent: "center", padding: 14 }}>
+      style={{ position: "fixed", inset: 0, background: "#0008", zIndex: 300,
+        display: "flex", alignItems: "center", justifyContent: "center", padding: 12 }}>
       <div className="modal-inner" style={{ background: C.card, border: "1px solid " + C.border, borderRadius: 14,
         width: "100%", maxWidth: props.width || 640, maxHeight: "92vh", display: "flex", flexDirection: "column",
         boxShadow: "0 20px 60px #00000066" }}>
@@ -1262,7 +1352,7 @@ function Modal(props) {
           </div>
           <Btn v="ghost" sz="sm" onClick={props.onClose}><IX /></Btn>
         </div>
-        <div style={{ overflowY: "auto", padding: 18, flex: 1 }}>{props.children}</div>
+        <div style={{ overflowY: "auto", padding: 18 }}>{props.children}</div>
       </div>
     </div>
   );
@@ -1284,7 +1374,7 @@ function LoginForm(props) {
     setError("");
     try {
       var res = await api.login(login.trim(), password);
-      if (res.ok && res.user) props.onDone(res.user);
+      if (res.ok && res.user) props.onDone({ ...res.user, token: res.token });
       else setError(T.loginError);
     } catch(e) { setError(T.loginError); }
     setLoading(false);
@@ -1363,7 +1453,7 @@ function LoginForm(props) {
 }
 
 function RegForm(props) {
-  var [f, setF] = useState({ name: "", age: "", city: "", position: "", workplace: "", purpose: "", login: "", password: "" });
+  var [f, setF] = useState({ name: "", age: "", city: "", position: "", workplace: "", purpose: "", login: "", password: "", orgType: "food" });
   var [loading, setLoading] = useState(false);
   var [error, setError] = useState("");
   function set(k) { return function(v) { setF(function(p) { return Object.assign({}, p, { [k]: v }); }); }; }
@@ -1426,6 +1516,24 @@ function RegForm(props) {
             </div>
             <input value={f.workplace} onChange={function(e) { set("workplace")(e.target.value); }} placeholder={T.regWorkplacePh}
               style={{ width: "100%", background: C.sur, border: "1px solid " + C.border, borderRadius: 8, padding: "10px 12px", color: C.text, fontSize: 14 }} />
+            <div style={{ marginTop: 10 }}>
+              <span style={{ fontSize: 10, fontWeight: 600, color: C.mid, marginBottom: 6, display: "block" }}>{T.orgSelectType}</span>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
+                {[{ v: "food", l: T.orgTypeFood, i: "🍳", c: C.orange },
+                  { v: "manufacturing", l: T.orgTypeMfg, i: "🏭", c: C.blue },
+                  { v: "construction", l: T.orgTypeConst, i: "🏗️", c: C.teal }].map(function(ot) {
+                  var sel = f.orgType === ot.v;
+                  return (
+                    <button key={ot.v} type="button" onClick={function() { set("orgType")(ot.v); }}
+                      style={{ background: sel ? ot.c + "22" : C.sur, border: "2px solid " + (sel ? ot.c : C.border),
+                        borderRadius: 8, padding: "8px 4px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                      <span style={{ fontSize: 18 }}>{ot.i}</span>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: sel ? ot.c : C.mid }}>{ot.l}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <Inp label={T.regPosition} value={f.position} onChange={set("position")} placeholder={T.regPositionPh} />
@@ -2119,39 +2227,39 @@ function AdminPanel(props) {
 
       {/* Organizations */}
       {adminTab === "orgs" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(320px,1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 10 }}>
           {orgs.map(function(o) {
             return (
-              <div key={o.id} className="card-item" style={{ background: C.card, border: "1px solid " + C.border, borderRadius: 14, padding: 0, overflow: "hidden" }}>
-                <div style={{ padding: "16px 18px 12px", borderBottom: "1px solid " + C.border + "44" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                    <div style={{ width: 36, height: 36, background: C.purple + "15", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <IBox s={16} c={C.purple} />
+              <div key={o.id} className="card-item" style={{ background: C.card, border: "1px solid " + C.border, borderRadius: 12, padding: 0, overflow: "hidden" }}>
+                <div style={{ padding: "12px 14px 10px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 32, height: 32, background: C.purple + "15", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <IBox s={14} c={C.purple} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, fontSize: 15, color: C.text, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{o.name}</div>
-                      <div style={{ fontSize: 10, color: C.dim, marginTop: 2 }}>ID: {o.id}</div>
+                      <div style={{ fontWeight: 700, fontSize: 13, color: C.text, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", lineHeight: "17px" }}>{o.name}</div>
+                      <div style={{ fontSize: 9, color: C.dim }}>ID: {o.id}</div>
                     </div>
                   </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderBottom: "1px solid " + C.border + "44" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: "1px solid " + C.border + "44", borderBottom: "1px solid " + C.border + "44" }}>
                   {[
                     { n: o.userCount, l: T.adminStaff, c: C.blue },
                     { n: o.productCount, l: T.adminProducts, c: C.green },
                     { n: o.cardCount, l: T.adminCards, c: C.orange },
                   ].map(function(s, i) {
                     return (
-                      <div key={i} style={{ padding: "10px 12px", textAlign: "center", borderRight: i < 2 ? "1px solid " + C.border + "44" : "none" }}>
-                        <div style={{ fontSize: 18, fontWeight: 800, color: s.c }}>{s.n}</div>
-                        <div style={{ fontSize: 9, color: C.mid, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>{s.l}</div>
+                      <div key={i} style={{ padding: "8px 6px", textAlign: "center", borderRight: i < 2 ? "1px solid " + C.border + "44" : "none" }}>
+                        <div style={{ fontSize: 16, fontWeight: 800, color: s.c, lineHeight: "20px" }}>{s.n}</div>
+                        <div style={{ fontSize: 8, color: C.mid, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.4 }}>{s.l}</div>
                       </div>
                     );
                   })}
                 </div>
-                <div style={{ padding: "10px 18px" }}>
-                  <Btn v="ghost" sz="sm" onClick={function() { viewOrgDetails(o.id); }}
-                    sx={{ width: "100%", justifyContent: "center", borderRadius: 10 }}>
-                    <ISearch s={11} /> {T.adminDetails}
+                <div style={{ padding: "8px 14px" }}>
+                  <Btn v="ghost" sz="xs" onClick={function() { viewOrgDetails(o.id); }}
+                    sx={{ width: "100%", justifyContent: "center", borderRadius: 8 }}>
+                    <ISearch s={10} /> {T.adminDetails}
                   </Btn>
                 </div>
               </div>
@@ -2193,20 +2301,21 @@ function AdminPanel(props) {
       )}
 
       {viewOrg && orgData && (
-        <Modal title={T.adminOrgInfo} width={780} onClose={function() { setViewOrg(null); setOrgData(null); }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <Modal title={T.adminOrgInfo} width={560} onClose={function() { setViewOrg(null); setOrgData(null); }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {/* Stats row */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
               {[
-                { n: orgData.users ? orgData.users.length : 0, l: T.adminOrgStaff, c: C.blue, icon: function() { return <IUser s={14} c={C.blue} />; } },
-                { n: orgData.products ? orgData.products.length : 0, l: T.adminOrgProducts, c: C.green, icon: function() { return <IBox s={14} c={C.green} />; } },
-                { n: orgData.cards ? orgData.cards.length : 0, l: T.adminOrgCards, c: C.orange, icon: function() { return <ILayers s={14} c={C.orange} />; } },
+                { n: orgData.users ? orgData.users.length : 0, l: T.adminOrgStaff, c: C.blue, icon: function() { return <IUser s={13} c={C.blue} />; } },
+                { n: orgData.products ? orgData.products.length : 0, l: T.adminOrgProducts, c: C.green, icon: function() { return <IBox s={13} c={C.green} />; } },
+                { n: orgData.cards ? orgData.cards.length : 0, l: T.adminOrgCards, c: C.orange, icon: function() { return <ILayers s={13} c={C.orange} />; } },
               ].map(function(s, i) {
                 return (
-                  <div key={i} style={{ background: s.c + "10", borderRadius: 10, padding: "12px 14px", textAlign: "center" }}>
-                    <div style={{ marginBottom: 4 }}>{s.icon()}</div>
-                    <div style={{ fontSize: 20, fontWeight: 800, color: s.c }}>{s.n}</div>
-                    <div style={{ fontSize: 10, color: C.mid, fontWeight: 600 }}>{s.l}</div>
+                  <div key={i} style={{ background: s.c + "10", borderRadius: 8, padding: "10px 8px", textAlign: "center",
+                    display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                    {s.icon()}
+                    <div style={{ fontSize: 18, fontWeight: 800, color: s.c, lineHeight: "22px" }}>{s.n}</div>
+                    <div style={{ fontSize: 9, color: C.mid, fontWeight: 600, lineHeight: "12px" }}>{s.l}</div>
                   </div>
                 );
               })}
@@ -2215,15 +2324,15 @@ function AdminPanel(props) {
             {/* Users */}
             {orgData.users && orgData.users.length > 0 && (
               <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: C.mid, marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.adminOrgStaff}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: C.mid, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.adminOrgStaff}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                   {orgData.users.map(function(u, i) {
                     return (
-                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", background: C.bg, borderRadius: 10 }}>
-                        <div style={{ width: 28, height: 28, background: C.blue + "15", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <IUser s={12} c={C.blue} />
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 10px", background: C.bg, borderRadius: 8 }}>
+                        <div style={{ width: 24, height: 24, background: C.blue + "15", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <IUser s={11} c={C.blue} />
                         </div>
-                        <span style={{ fontSize: 13, fontWeight: 600, flex: 1 }}>{u.name}</span>
+                        <span style={{ fontSize: 12, fontWeight: 600, flex: 1 }}>{u.name}</span>
                         {u.position && <Badge col={C.dim} sz={9}>{u.position}</Badge>}
                         {u.city && <span style={{ fontSize: 10, color: C.dim }}>{u.city}</span>}
                       </div>
@@ -2235,14 +2344,14 @@ function AdminPanel(props) {
 
             {/* Products */}
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.mid, marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.adminOrgProducts}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: C.mid, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.adminOrgProducts}</div>
               {orgData.products && orgData.products.length > 0 ? (
-                <div style={{ maxHeight: 280, overflowY: "auto", border: "1px solid " + C.border, borderRadius: 10 }}>
+                <div style={{ maxHeight: 220, overflowY: "auto", border: "1px solid " + C.border, borderRadius: 8 }}>
                   <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead>
                       <tr style={{ background: C.bg, position: "sticky", top: 0 }}>
-                        {[T.nomThName, T.nomThUnit, T.nomThPrice, T.nomThPack].map(function(h, i) {
-                          return <th key={i} style={{ padding: "8px 10px", fontSize: 10, fontWeight: 700, color: C.mid, textAlign: "left", textTransform: "uppercase" }}>{h}</th>;
+                        {[T.nomThName, T.nomThUnit, T.nomThPrice].map(function(h, i) {
+                          return <th key={i} style={{ padding: "6px 10px", fontSize: 9, fontWeight: 700, color: C.mid, textAlign: "left", textTransform: "uppercase" }}>{h}</th>;
                         })}
                       </tr>
                     </thead>
@@ -2250,43 +2359,42 @@ function AdminPanel(props) {
                       {orgData.products.map(function(p) {
                         return (
                           <tr key={p.id} style={{ borderBottom: "1px solid " + C.border + "22" }}>
-                            <td style={{ padding: "7px 10px" }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                <NomIcon type={p.nomType} s={11} />
-                                <span style={{ fontSize: 12, fontWeight: 600 }}>{p.name}</span>
+                            <td style={{ padding: "5px 10px" }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                                <NomIcon type={p.nomType} s={10} />
+                                <span style={{ fontSize: 11, fontWeight: 600 }}>{p.name}</span>
                               </div>
                             </td>
-                            <td style={{ padding: "7px 10px", fontSize: 11, color: C.mid }}>{p.unit}</td>
-                            <td style={{ padding: "7px 10px" }}><span style={{ fontSize: 12, color: C.acc, fontWeight: 700 }}>{fmt(p.price)}</span></td>
-                            <td style={{ padding: "7px 10px", fontSize: 10, color: C.dim }}>{p.packaging || "—"}</td>
+                            <td style={{ padding: "5px 10px", fontSize: 10, color: C.mid }}>{p.unit}</td>
+                            <td style={{ padding: "5px 10px" }}><span style={{ fontSize: 11, color: C.acc, fontWeight: 700 }}>{fmt(p.price)}</span></td>
                           </tr>
                         );
                       })}
                     </tbody>
                   </table>
                 </div>
-              ) : <p style={{ fontSize: 12, color: C.dim, padding: "8px 0" }}>{T.noItems}</p>}
+              ) : <p style={{ fontSize: 11, color: C.dim }}>{T.noItems}</p>}
             </div>
 
             {/* Cards */}
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.mid, marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.adminOrgCards}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: C.mid, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{T.adminOrgCards}</div>
               {orgData.cards && orgData.cards.length > 0 ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                   {orgData.cards.map(function(c) {
                     return (
-                      <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: C.bg, borderRadius: 10 }}>
-                        <div style={{ width: 28, height: 28, background: C.orange + "15", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <ILayers s={12} c={C.orange} />
+                      <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", background: C.bg, borderRadius: 8 }}>
+                        <div style={{ width: 24, height: 24, background: C.orange + "15", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <ILayers s={11} c={C.orange} />
                         </div>
-                        <span style={{ fontSize: 13, fontWeight: 600, flex: 1 }}>{c.name}</span>
+                        <span style={{ fontSize: 12, fontWeight: 600, flex: 1 }}>{c.name}</span>
                         {c.outputQty && <Badge col={C.blue} sz={9}>{c.outputQty} {c.outputUnit}</Badge>}
                         <Badge col={C.purple} sz={9}>{c.stepsCount} {T.stepNameDefault}</Badge>
                       </div>
                     );
                   })}
                 </div>
-              ) : <p style={{ fontSize: 12, color: C.dim, padding: "8px 0" }}>{T.noCards}</p>}
+              ) : <p style={{ fontSize: 11, color: C.dim }}>{isFood() ? T.noCards : T.specNoItems}</p>}
             </div>
           </div>
         </Modal>
@@ -2377,7 +2485,7 @@ function NomForm(props) {
   var init = props.init ? Object.assign({}, blank, props.init) : blank;
   var [f, setF] = useState(init);
   function set(k) { return function(v) { setF(function(p) { return Object.assign({}, p, { [k]: v }); }); }; }
-  var isComplex = COMPLEX.indexOf(f.nomType) >= 0;
+  var isComplex = getComplexKeys().indexOf(f.nomType) >= 0;
   var g = +f.grossWeight || 0, n = +f.netWeight || 0;
   var yp = g > 0 && n > 0 ? (n / g * 100) : 0;
   var nt = getNT(); var cfg = nt[f.nomType] || nt.tovar;
@@ -2387,7 +2495,7 @@ function NomForm(props) {
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         <label style={{ fontSize: 10, fontWeight: 700, color: C.mid, textTransform: "uppercase", letterSpacing: 0.7 }}>{T.nomTypeLabel}</label>
         <div className="nom-type-btns" style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {NT_KEYS.map(function(k) {
+          {getNtKeys().map(function(k) {
             var kc = getNT()[k];
             var sel = f.nomType === k;
             return (
@@ -2430,6 +2538,7 @@ function NomForm(props) {
       <Inp label={T.nomDesc} value={f.description} onChange={set("description")} placeholder={T.nomDescPh} />
       <ImageUpload value={f.image} onChange={set("image")} />
 
+      {isFood() && (
       <div style={{ background: C.bg, borderRadius: 8, padding: 12, border: "1px solid " + C.green + "33" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
           <IScale s={13} c={C.green} />
@@ -2442,6 +2551,7 @@ function NomForm(props) {
           <Inp label={T.nomCalories} value={f.calories} onChange={set("calories")} type="number" placeholder="0" />
         </div>
       </div>
+      )}
 
       {isComplex && (
         <div style={{ background: C.bg, borderRadius: 8, padding: 13, border: "1px solid " + cfg.color + "33", display: "flex", flexDirection: "column", gap: 11 }}>
@@ -2449,6 +2559,7 @@ function NomForm(props) {
             <NomIcon type={f.nomType} s={14} />
             <span style={{ fontSize: 12, fontWeight: 700, color: cfg.color }}>{T.nomParams}: {cfg.label}</span>
           </div>
+          {isFood() && (
           <div className="form-3col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             <Inp label={T.nomGross} value={f.grossWeight} onChange={set("grossWeight")} type="number" placeholder={T.nomGrossPh} hint={T.nomGrossHint} />
             <Inp label={T.nomNet} value={f.netWeight} onChange={set("netWeight")} type="number" placeholder={T.nomNetPh} hint={T.nomNetHint} />
@@ -2456,6 +2567,7 @@ function NomForm(props) {
               hint={yp > 0 ? T.nomLoss + ": " + fmt(g - n) + " " + f.unit : T.nomFillGross}
               sx={{ color: C.green }} />
           </div>
+          )}
           <Sel label={T.nomLinkedCard} value={f.linkedCardId || ""} onChange={set("linkedCardId")}
             options={[{ v: "", l: T.nomNoLinked }].concat(
               props.cards.filter(function(c) { return c.id !== f.id; }).map(function(c) {
@@ -2545,7 +2657,7 @@ function IngRow(props) {
           <select value={ing.refId} onChange={function(e) { props.onChange(Object.assign({}, ing, { refId: e.target.value })); }}
             style={{ background: C.sur, border: "1px solid " + pCol + "55", borderRadius: 6, padding: "8px 10px", color: C.text, fontSize: 12 }}>
             <option value="">{T.ingSelectNom}</option>
-            {NT_KEYS.filter(function(t) { return t !== "blyudo"; }).map(function(t) {
+            {getNtKeys().filter(function(t) { return isFood() ? t !== "blyudo" : true; }).map(function(t) {
               var ps = avProds.filter(function(p) { return p.nomType === t; });
               if (!ps.length) return null;
               return (
@@ -2684,6 +2796,7 @@ function CardForm(props) {
       </div>
       <Inp label={T.cardDesc} value={f.description} onChange={s("description")} placeholder={T.cardDescPh} />
 
+      {isFood() && (
       <div style={{ background: C.bg, borderRadius: 8, padding: 12, border: "1px solid " + C.teal + "33" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 10 }}>
           <IScale s={13} c={C.teal} />
@@ -2697,6 +2810,7 @@ function CardForm(props) {
             sx={{ color: C.green }} />
         </div>
       </div>
+      )}
 
       {tc > 0 && (
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 13px", background: C.green + "18", border: "1px solid " + C.green + "33", borderRadius: 8 }}>
@@ -2828,25 +2942,31 @@ function exportExcel(card, allCards, allProds) {
   var g = +card.grossWeight || 0, n = +card.netWeight || 0;
   var yp = g > 0 && n > 0 ? (n / g * 100).toFixed(1) + "%" : "—";
 
-  var nut = calcNutrition(card, allCards, allProds);
+  var nut = isFood() ? calcNutrition(card, allCards, allProds) : null;
   var outQ = +card.outputQty || 1;
   var sum = [
-    [T.expTechCard], [],
+    [isFood() ? T.expTechCard : T.specLabel], [],
     [T.expName, card.name], [T.expDesc, card.description || "—"],
     [T.expOutput, card.outputQty + " " + card.outputUnit],
-    [T.expGross, g || "—"], [T.expNet, n || "—"], [T.expYieldPct, yp],
-    [T.expCost, fmt(tc) + " " + T.currency], [T.expCostPerUnit, fmt(perU) + " " + T.currency],
-    [],
-    [T.expNutrPer + " (" + card.outputUnit + "):"],
-    [T.expProteins, fmt(nut.proteins / outQ) + " г"],
-    [T.expFats, fmt(nut.fats / outQ) + " г"],
-    [T.expCarbs, fmt(nut.carbs / outQ) + " г"],
-    [T.expCalories, fmt(nut.calories / outQ) + " ккал"],
-    [],
+  ];
+  if (isFood()) {
+    sum.push([T.expGross, g || "—"], [T.expNet, n || "—"], [T.expYieldPct, yp]);
+  }
+  sum.push(
+    [T.expCost, fmt(tc) + " " + T.currency], [T.expCostPerUnit, fmt(perU) + " " + T.currency]
+  );
+  if (nut) {
+    sum.push([], [T.expNutrPer + " (" + card.outputUnit + "):"],
+      [T.expProteins, fmt(nut.proteins / outQ) + " г"],
+      [T.expFats, fmt(nut.fats / outQ) + " г"],
+      [T.expCarbs, fmt(nut.carbs / outQ) + " г"],
+      [T.expCalories, fmt(nut.calories / outQ) + " ккал"]);
+  }
+  sum.push([],
     [T.expDate, new Date(card.createdAt).toLocaleDateString("ru")], [],
     [T.expBOM], [],
     [T.expIngredient, T.expNomType, T.excelThUnit, T.expQty, T.expPricePerUnit, T.expSum, T.expLevel, T.expStepName, T.expStepProcess]
-  ];
+  );
   var bom = buildBOM(card.id, allCards, allProds);
   bom.forEach(function(r) {
     var indent = "";
@@ -3098,6 +3218,16 @@ function SettingsPanel(props) {
         <h2 style={{ fontSize: 18, fontWeight: 800, color: C.text }}>{T.settingsTitle}</h2>
       </div>
 
+      {/* Organizations */}
+      <div style={sectionStyle}>
+        {sectionHead(<IBox s={16} c={C.orange} />, T.orgManage, "orgs")}
+        {section === "orgs" && (
+          <div style={{ marginTop: 14 }}>
+            <OrgManager user={user} onUserUpdate={props.onUserUpdate} onOrgSwitch={props.onOrgSwitch} />
+          </div>
+        )}
+      </div>
+
       {/* Profile */}
       <div style={sectionStyle}>
         {sectionHead(<IUser s={16} c={C.blue} />, T.setProfile, "profile")}
@@ -3207,6 +3337,439 @@ function SettingsPanel(props) {
   );
 }
 
+// ─── Org Manager Component ──────────────────────────────────────────────────
+function OrgManager(props) {
+  var user = props.user;
+  var [orgs, setOrgs] = useState([]);
+  var [loading, setLoading] = useState(true);
+  var [showCreate, setShowCreate] = useState(false);
+  var [newName, setNewName] = useState("");
+  var [newType, setNewType] = useState("food");
+  var [creating, setCreating] = useState(false);
+
+  useEffect(function() {
+    api.getOrgs().then(function(o) { setOrgs(o || []); setLoading(false); }).catch(function() { setLoading(false); });
+  }, []);
+
+  async function doCreate() {
+    if (!newName.trim()) return;
+    setCreating(true);
+    try {
+      var res = await api.createOrg(newName.trim(), newType);
+      if (res.ok) {
+        setOrgs(await api.getOrgs());
+        setShowCreate(false);
+        setNewName("");
+        setNewType("food");
+        if (res.user) props.onUserUpdate(res.user);
+        // reload data for new org
+        props.onOrgSwitch();
+      }
+    } catch(e) {}
+    setCreating(false);
+  }
+
+  async function doSwitch(orgId) {
+    try {
+      var res = await api.switchOrg(orgId);
+      if (res.ok && res.user) {
+        props.onUserUpdate(res.user);
+        props.onOrgSwitch();
+      }
+    } catch(e) {}
+  }
+
+  async function doDelete(orgId) {
+    try {
+      var res = await api.deleteOrg(orgId);
+      if (res.ok) {
+        setOrgs(await api.getOrgs());
+        if (res.user) props.onUserUpdate(res.user);
+        props.onOrgSwitch();
+      }
+    } catch(e) {}
+  }
+
+  var orgTypes = [
+    { value: "food", label: T.orgTypeFood, icon: "🍳", color: C.orange },
+    { value: "manufacturing", label: T.orgTypeMfg, icon: "🏭", color: C.blue },
+    { value: "construction", label: T.orgTypeConst, icon: "🏗️", color: C.teal },
+  ];
+
+  var typeLabels = {};
+  orgTypes.forEach(function(t) { typeLabels[t.value] = t; });
+
+  if (loading) return <div style={{ textAlign: "center", padding: 20, color: C.mid, fontSize: 13 }}>{T.loading}</div>;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* Org List */}
+      {orgs.map(function(org) {
+        var isCurrent = org.id === user.orgId;
+        var typeInfo = typeLabels[org.type] || typeLabels.food;
+        return (
+          <div key={org.id} className="card-item" style={{
+            background: isCurrent ? C.acc + "11" : C.card,
+            border: "1px solid " + (isCurrent ? C.acc + "44" : C.border),
+            borderRadius: 12, padding: "14px 16px",
+            display: "flex", alignItems: "center", gap: 12,
+          }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: typeInfo.color + "22",
+              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>
+              {typeInfo.icon}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 700, fontSize: 14, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {org.name}
+              </div>
+              <div style={{ fontSize: 11, color: C.mid, marginTop: 2 }}>
+                <span style={{ background: typeInfo.color + "22", color: typeInfo.color, padding: "2px 6px", borderRadius: 4, fontWeight: 600, fontSize: 10 }}>
+                  {typeInfo.label}
+                </span>
+                <span style={{ marginLeft: 8 }}>{org.role}</span>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+              {isCurrent ? (
+                <span style={{ fontSize: 11, fontWeight: 700, color: C.acc, padding: "5px 10px", background: C.acc + "15", borderRadius: 6 }}>
+                  {T.orgCurrent}
+                </span>
+              ) : (
+                <Btn sz="xs" onClick={function() { doSwitch(org.id); }}>{T.orgSwitch}</Btn>
+              )}
+              {org.role === "admin" && !isCurrent && (
+                <Btn sz="xs" v="danger" onClick={function() { if (confirm(T.orgDeleteWarn)) doDelete(org.id); }}><ITrash s={11} /></Btn>
+              )}
+            </div>
+          </div>
+        );
+      })}
+
+      {orgs.length === 0 && (
+        <p style={{ fontSize: 13, color: C.mid, textAlign: "center", padding: 20 }}>{T.orgEmpty}</p>
+      )}
+
+      {/* Create New Org */}
+      {showCreate ? (
+        <div className="fi" style={{ background: C.card, border: "1px solid " + C.acc + "33", borderRadius: 12, padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+          <Inp label={T.orgName} value={newName} onChange={setNewName} placeholder={T.orgNamePh} />
+          <div>
+            <label style={{ fontSize: 11, fontWeight: 700, color: C.mid, display: "block", marginBottom: 6 }}>{T.orgSelectType}</label>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+              {orgTypes.map(function(ot) {
+                var sel = newType === ot.value;
+                return (
+                  <button key={ot.value} onClick={function() { setNewType(ot.value); }}
+                    style={{ background: sel ? ot.color + "22" : C.bg, border: "2px solid " + (sel ? ot.color : C.border),
+                      borderRadius: 10, padding: "12px 8px", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                    <span style={{ fontSize: 24 }}>{ot.icon}</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: sel ? ot.color : C.mid }}>{ot.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+            <Btn sz="sm" v="ghost" onClick={function() { setShowCreate(false); }}>{T.catCancel}</Btn>
+            <Btn sz="sm" disabled={!newName.trim() || creating} onClick={doCreate}>{T.orgCreate}</Btn>
+          </div>
+        </div>
+      ) : (
+        <button onClick={function() { setShowCreate(true); }} className="hover-glow"
+          style={{ background: C.card, border: "2px dashed " + C.border, borderRadius: 12, padding: 14,
+            cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            color: C.acc, fontWeight: 700, fontSize: 13 }}>
+          <IPlus s={14} c={C.acc} /> {T.orgAdd}
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ─── Compact Org Switcher (for sidebar) ─────────────────────────────────────
+function OrgSwitcher(props) {
+  var user = props.user;
+  var [orgs, setOrgs] = useState([]);
+  var [open, setOpen] = useState(false);
+  var [showCreate, setShowCreate] = useState(false);
+  var [newName, setNewName] = useState("");
+  var [newType, setNewType] = useState("food");
+  var [creating, setCreating] = useState(false);
+  var [loaded, setLoaded] = useState(false);
+
+  var orgTypes = [
+    { value: "food", label: T.orgTypeFood, icon: "🍳", color: C.orange },
+    { value: "manufacturing", label: T.orgTypeMfg, icon: "🏭", color: C.blue },
+    { value: "construction", label: T.orgTypeConst, icon: "🏗️", color: C.teal },
+  ];
+  var typeMap = {};
+  orgTypes.forEach(function(t) { typeMap[t.value] = t; });
+
+  function loadOrgs() {
+    api.getOrgs().then(function(o) { setOrgs(o || []); setLoaded(true); }).catch(function() { setLoaded(true); });
+  }
+
+  useEffect(function() { loadOrgs(); }, []);
+
+  var curType = typeMap[user.orgType || "food"] || typeMap.food;
+
+  async function doSwitch(orgId) {
+    try {
+      var res = await api.switchOrg(orgId);
+      if (res.ok && res.user) {
+        props.onUserUpdate(res.user);
+        props.onOrgSwitch();
+        setOpen(false);
+      }
+    } catch(e) {}
+  }
+
+  async function doCreate() {
+    if (!newName.trim()) return;
+    setCreating(true);
+    try {
+      var res = await api.createOrg(newName.trim(), newType);
+      if (res.ok) {
+        loadOrgs();
+        setShowCreate(false);
+        setNewName("");
+        setNewType("food");
+        if (res.user) props.onUserUpdate(res.user);
+        props.onOrgSwitch();
+        setOpen(false);
+      }
+    } catch(e) {}
+    setCreating(false);
+  }
+
+  var iconBoxStyle = { width: 28, height: 28, borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 };
+
+  return (
+    <div style={{ marginBottom: 10 }}>
+      {/* Current org button */}
+      <button onClick={function() { setOpen(!open); if (!loaded) loadOrgs(); }} className="hover-glow"
+        style={{ width: "100%", background: curType.color + "12", border: "1px solid " + curType.color + "33",
+          borderRadius: 8, padding: "8px 10px", cursor: "pointer",
+          display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
+        <div style={Object.assign({}, iconBoxStyle, { background: curType.color + "22" })}>{curType.icon}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 700, fontSize: 12, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", lineHeight: "16px" }}>
+            {user.orgName || T.orgManage}
+          </div>
+          <div style={{ fontSize: 10, color: curType.color, fontWeight: 600, lineHeight: "13px" }}>{curType.label}</div>
+        </div>
+        {open ? <IChU s={10} c={C.mid} /> : <IChD s={10} c={C.mid} />}
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div style={{ marginTop: 4, background: C.card, border: "1px solid " + C.border, borderRadius: 8,
+          padding: 4, display: "flex", flexDirection: "column", gap: 2, maxHeight: 280, overflowY: "auto" }}>
+          {orgs.map(function(org) {
+            var isCurrent = org.id === user.orgId;
+            var ti = typeMap[org.type] || typeMap.food;
+            return (
+              <button key={org.id} onClick={function() { if (!isCurrent) doSwitch(org.id); }}
+                style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 8px", borderRadius: 6,
+                  border: isCurrent ? "1px solid " + C.acc + "33" : "1px solid transparent",
+                  background: isCurrent ? C.acc + "0d" : "transparent", cursor: isCurrent ? "default" : "pointer",
+                  textAlign: "left", width: "100%" }}>
+                <div style={Object.assign({}, iconBoxStyle, { background: ti.color + "18" })}>{ti.icon}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, fontSize: 12, color: isCurrent ? C.acc : C.text, lineHeight: "16px",
+                    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {org.name}
+                  </div>
+                  <div style={{ fontSize: 10, color: ti.color, fontWeight: 600, lineHeight: "13px" }}>{ti.label}</div>
+                </div>
+                {isCurrent && <span style={{ fontSize: 9, fontWeight: 700, color: C.acc, background: C.acc + "15",
+                  padding: "2px 6px", borderRadius: 4, flexShrink: 0, lineHeight: "14px" }}>{T.orgCurrent}</span>}
+              </button>
+            );
+          })}
+
+          {orgs.length === 0 && !showCreate && (
+            <p style={{ fontSize: 11, color: C.dim, textAlign: "center", padding: 10 }}>{T.orgEmpty}</p>
+          )}
+
+          <div style={{ height: 1, background: C.border, margin: "2px 4px" }} />
+
+          {/* Inline create form */}
+          {showCreate ? (
+            <div style={{ padding: 10, background: C.bg, borderRadius: 6, border: "1px solid " + C.acc + "33",
+              display: "flex", flexDirection: "column", gap: 10 }}>
+              <Inp label={T.orgName} value={newName} onChange={setNewName} placeholder={T.orgNamePh} />
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, color: C.mid, display: "block", marginBottom: 5 }}>{T.orgSelectType}</label>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 5 }}>
+                  {orgTypes.map(function(ot) {
+                    var sel = newType === ot.value;
+                    return (
+                      <button key={ot.value} onClick={function() { setNewType(ot.value); }}
+                        style={{ background: sel ? ot.color + "22" : C.card, border: "2px solid " + (sel ? ot.color : C.border),
+                          borderRadius: 7, padding: "8px 4px", cursor: "pointer",
+                          display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                        <span style={{ fontSize: 18, lineHeight: "20px" }}>{ot.icon}</span>
+                        <span style={{ fontSize: 9, fontWeight: 700, color: sel ? ot.color : C.mid, lineHeight: "12px" }}>{ot.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
+                <Btn sz="xs" v="ghost" onClick={function() { setShowCreate(false); }}>{T.catCancel}</Btn>
+                <Btn sz="xs" disabled={!newName.trim() || creating} onClick={doCreate}>{T.orgCreate}</Btn>
+              </div>
+            </div>
+          ) : (
+            <button onClick={function() { setShowCreate(true); }} className="hover-glow"
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
+                padding: "8px", borderRadius: 6, border: "1px dashed " + C.border,
+                background: "transparent", cursor: "pointer", color: C.acc, fontWeight: 700, fontSize: 11 }}>
+              <IPlus s={11} c={C.acc} /> {T.orgAdd}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Horizontal Org Bar (for cards tab) ─────────────────────────────────────
+function OrgBar(props) {
+  var user = props.user;
+  var [orgs, setOrgs] = useState([]);
+  var [open, setOpen] = useState(false);
+  var [showCreate, setShowCreate] = useState(false);
+  var [newName, setNewName] = useState("");
+  var [newType, setNewType] = useState("food");
+  var [creating, setCreating] = useState(false);
+
+  var orgTypes = [
+    { value: "food", label: T.orgTypeFood, icon: "🍳", color: C.orange },
+    { value: "manufacturing", label: T.orgTypeMfg, icon: "🏭", color: C.blue },
+    { value: "construction", label: T.orgTypeConst, icon: "🏗️", color: C.teal },
+  ];
+  var typeMap = {};
+  orgTypes.forEach(function(t) { typeMap[t.value] = t; });
+
+  function loadOrgs() {
+    api.getOrgs().then(function(o) { setOrgs(o || []); }).catch(function() {});
+  }
+
+  var curType = typeMap[user.orgType || "food"] || typeMap.food;
+
+  async function doSwitch(orgId) {
+    try {
+      var res = await api.switchOrg(orgId);
+      if (res.ok && res.user) {
+        props.onUserUpdate(res.user);
+        props.onOrgSwitch();
+        setOpen(false);
+      }
+    } catch(e) {}
+  }
+
+  async function doCreate() {
+    if (!newName.trim()) return;
+    setCreating(true);
+    try {
+      var res = await api.createOrg(newName.trim(), newType);
+      if (res.ok) {
+        loadOrgs();
+        setShowCreate(false);
+        setNewName("");
+        setNewType("food");
+        if (res.user) props.onUserUpdate(res.user);
+        props.onOrgSwitch();
+        setOpen(false);
+      }
+    } catch(e) {}
+    setCreating(false);
+  }
+
+  var iconBoxStyle = { width: 32, height: 32, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 };
+
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: C.card,
+        borderRadius: 8, border: "1px solid " + C.border }}>
+        <div style={Object.assign({}, iconBoxStyle, { background: curType.color + "22" })}>{curType.icon}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ fontWeight: 700, fontSize: 13, color: C.text, lineHeight: "18px" }}>{user.orgName || T.orgManage}</span>
+          <span style={{ fontSize: 10, color: curType.color, fontWeight: 600, marginLeft: 8,
+            background: curType.color + "18", padding: "2px 7px", borderRadius: 4, lineHeight: "14px" }}>{curType.label}</span>
+        </div>
+        <button onClick={function() { setOpen(!open); if (!open) loadOrgs(); }} className="hover-glow"
+          style={{ background: C.bg, border: "1px solid " + C.border, borderRadius: 6,
+            padding: "5px 10px", cursor: "pointer", display: "flex", alignItems: "center", gap: 5,
+            fontSize: 11, fontWeight: 600, color: C.mid }}>
+          {T.orgSwitch} {open ? <IChU s={10} c={C.mid} /> : <IChD s={10} c={C.mid} />}
+        </button>
+      </div>
+      {open && (
+        <div style={{ marginTop: 4, background: C.card, border: "1px solid " + C.border, borderRadius: 8,
+          padding: 6, display: "flex", flexDirection: "column", gap: 2 }}>
+          {orgs.map(function(org) {
+            var isCurrent = org.id === user.orgId;
+            var ti = typeMap[org.type] || typeMap.food;
+            return (
+              <button key={org.id} onClick={function() { if (!isCurrent) doSwitch(org.id); }}
+                style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 10px", borderRadius: 6,
+                  border: isCurrent ? "1px solid " + C.acc + "33" : "1px solid transparent",
+                  background: isCurrent ? C.acc + "0d" : "transparent", cursor: isCurrent ? "default" : "pointer",
+                  textAlign: "left", width: "100%" }}>
+                <div style={{ width: 28, height: 28, borderRadius: 7, background: ti.color + "18",
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>{ti.icon}</div>
+                <span style={{ fontWeight: 600, fontSize: 12, color: isCurrent ? C.acc : C.text, flex: 1, lineHeight: "16px" }}>{org.name}</span>
+                <span style={{ fontSize: 10, color: ti.color, fontWeight: 600, background: ti.color + "18",
+                  padding: "2px 7px", borderRadius: 4, flexShrink: 0, lineHeight: "14px" }}>{ti.label}</span>
+                {isCurrent && <span style={{ fontSize: 9, fontWeight: 700, color: C.acc, background: C.acc + "15",
+                  padding: "2px 6px", borderRadius: 4, flexShrink: 0, lineHeight: "14px" }}>{T.orgCurrent}</span>}
+              </button>
+            );
+          })}
+          <div style={{ height: 1, background: C.border, margin: "2px 6px" }} />
+          {showCreate ? (
+            <div style={{ padding: 10, background: C.bg, borderRadius: 6, border: "1px solid " + C.acc + "33",
+              display: "flex", flexDirection: "column", gap: 10 }}>
+              <Inp label={T.orgName} value={newName} onChange={setNewName} placeholder={T.orgNamePh} />
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, color: C.mid, display: "block", marginBottom: 5 }}>{T.orgSelectType}</label>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
+                  {orgTypes.map(function(ot) {
+                    var sel = newType === ot.value;
+                    return (
+                      <button key={ot.value} onClick={function() { setNewType(ot.value); }}
+                        style={{ background: sel ? ot.color + "22" : C.card, border: "2px solid " + (sel ? ot.color : C.border),
+                          borderRadius: 8, padding: "8px 6px", cursor: "pointer",
+                          display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                        <span style={{ fontSize: 20, lineHeight: "22px" }}>{ot.icon}</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: sel ? ot.color : C.mid, lineHeight: "13px" }}>{ot.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
+                <Btn sz="xs" v="ghost" onClick={function() { setShowCreate(false); }}>{T.catCancel}</Btn>
+                <Btn sz="xs" disabled={!newName.trim() || creating} onClick={doCreate}>{T.orgCreate}</Btn>
+              </div>
+            </div>
+          ) : (
+            <button onClick={function() { setShowCreate(true); }} className="hover-glow"
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
+                padding: "8px", borderRadius: 6, border: "1px dashed " + C.border,
+                background: "transparent", cursor: "pointer", color: C.acc, fontWeight: 700, fontSize: 11 }}>
+              <IPlus s={11} c={C.acc} /> {T.orgAdd}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   var [tab, setTab] = useState("cards");
   var [products, setProducts] = useState([]);
@@ -3225,8 +3788,7 @@ export default function App() {
 
   T = lang === "ru" ? T_RU : T_UZ;
   C = theme === "dark" ? DARK : LIGHT;
-
-  var isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+  _currentOrgType = (user && user.orgType) || "food";
 
   useEffect(function() {
     try {
@@ -3247,6 +3809,8 @@ export default function App() {
         if (profile.registered) {
           setUser(profile);
           setTheme(profile.theme || "dark");
+          // Save session token so user stays logged in next time
+          if (profile.token) api.setToken(profile.token);
         }
       } catch(e) {
         console.error(e);
@@ -3254,6 +3818,33 @@ export default function App() {
       setAuthChecked(true);
     })();
   }, []);
+
+  async function loadData() {
+    try {
+      var [pr, ca, fo] = await Promise.all([
+        api.getProducts(),
+        api.getCards(),
+        api.getFolders(),
+      ]);
+      setProducts(pr || []);
+      setCards(ca || []);
+      setFolders(fo || []);
+    } catch(e) {
+      console.error("Failed to load data:", e);
+    }
+    setLoaded(true);
+  }
+
+  function onOrgSwitch() {
+    setLoaded(false);
+    setSelFolder("ALL");
+    setFilterType("ALL");
+    setSearch("");
+    // Refresh profile to get new orgType then reload data
+    api.getProfile().then(function(p) {
+      if (p.registered) { setUser(p); }
+    }).then(loadData);
+  }
 
   useEffect(function() {
     if (!user || !user.registered) return;
@@ -3289,6 +3880,8 @@ export default function App() {
   function onRegistered(u) {
     setUser(u);
     setTheme(u.theme || "dark");
+    // Save session token so user stays logged in next time
+    if (u.token) api.setToken(u.token);
   }
 
   async function handleLogout() {
@@ -3389,8 +3982,9 @@ export default function App() {
                   <ILayers s={16} c="#000" />
                 </div>
                 <div>
-                  <span style={{ fontWeight: 800, fontSize: 15, color: C.text }}>ТехКарты</span>
-                  <span style={{ fontSize: 10, color: C.dim, marginLeft: 4, fontWeight: 600 }}>PRO</span>
+                  <div><span style={{ fontWeight: 800, fontSize: 15, color: C.text }}>ТехКарты</span>
+                  <span style={{ fontSize: 10, color: C.dim, marginLeft: 4, fontWeight: 600 }}>PRO</span></div>
+                  {user.orgName && <div style={{ fontSize: 10, color: C.acc, fontWeight: 600, marginTop: -1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 160 }}>{user.orgName}</div>}
                 </div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -3421,7 +4015,7 @@ export default function App() {
             {/* Tab bar + actions */}
             <div className="nav-inner" style={{ display: "flex", alignItems: "center", gap: 4, paddingBottom: 6 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-                {[{ k: "cards", l: T.tabCards, n: cards.length, icon: function(c) { return <ILayers s={14} c={c} />; } },
+                {[{ k: "cards", l: getCardLabel(), n: cards.length, icon: function(c) { return <ILayers s={14} c={c} />; } },
                   { k: "nom", l: T.tabNom, n: products.length, icon: function(c) { return <IBox s={14} c={c} />; } },
                   { k: "settings", l: T.tabSettings, n: "", icon: function(c) { return <IGear s={14} c={c} />; } }]
                   .concat(isAdmin ? [{ k: "admin", l: T.tabAdmin, n: "", icon: function(c) { return <IShield s={14} c={c} />; } }] : [])
@@ -3472,7 +4066,7 @@ export default function App() {
 
         {/* ── SETTINGS TAB ── */}
         {tab === "settings" && (
-          <TabTransition tabKey="settings"><SettingsPanel user={user} onUserUpdate={function(u) { setUser(u); }} onLogout={handleLogout} /></TabTransition>
+          <TabTransition tabKey="settings"><SettingsPanel user={user} onUserUpdate={function(u) { setUser(u); }} onLogout={handleLogout} onOrgSwitch={onOrgSwitch} /></TabTransition>
         )}
 
         {/* ── ADMIN TAB ── */}
@@ -3481,9 +4075,11 @@ export default function App() {
         {/* ── CARDS TAB ── */}
         {tab === "cards" && (
           <TabTransition tabKey="cards"><div style={{ maxWidth: 1360, margin: "0 auto", padding: "12px 10px" }}>
+            {/* Org bar */}
+            <OrgBar user={user} onUserUpdate={function(u) { setUser(u); }} onOrgSwitch={onOrgSwitch} />
             <div className="type-legend" style={{ display: "flex", gap: 8, marginBottom: 14, padding: "8px 12px", background: C.card, borderRadius: 8, border: "1px solid " + C.border, alignItems: "center", flexWrap: "wrap" }}>
               <span style={{ fontSize: 10, color: C.mid, fontWeight: 700 }}>{T.typesLabel}</span>
-              {NT_KEYS.map(function(k) {
+              {getNtKeys().map(function(k) {
                 return (
                   <div key={k} style={{ display: "flex", alignItems: "center", gap: 4, padding: "2px 7px", background: ntColor(k) + "1a", border: "1px solid " + ntColor(k) + "33", borderRadius: 4 }}>
                     <NomIcon type={k} s={10} />
@@ -3498,8 +4094,8 @@ export default function App() {
                 <div style={{ width: 56, height: 56, background: C.acc + "15", borderRadius: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
                   <ILayers s={24} c={C.acc} />
                 </div>
-                <p style={{ color: C.mid, fontSize: 14, marginBottom: 16 }}>{T.noCards}</p>
-                <Btn onClick={function() { setModal({ type: "newCard" }); }}><IPlus /> {T.createFirst}</Btn>
+                <p style={{ color: C.mid, fontSize: 14, marginBottom: 16 }}>{isFood() ? T.noCards : T.specNoItems}</p>
+                <Btn onClick={function() { setModal({ type: "newCard" }); }}><IPlus /> {isFood() ? T.createFirst : T.specCreateFirst}</Btn>
               </div>
             ) : (
               <div className="cards-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(350px,1fr))", gap: 12 }}>
@@ -3532,9 +4128,9 @@ export default function App() {
                         <Badge col={C.purple} sz={10}>{card.steps.length} {lang === "ru" ? "эт." : "бос."}</Badge>
                         {semiCnt > 0 && <Badge col={C.orange} sz={10}><ILayers s={9} /> {semiCnt} {T.expSemiTag}</Badge>}
                         {dep > 1 && <Badge col={C.teal} sz={10}><ITree s={9} /> {dep - 1} {lang === "ru" ? "ур." : "дар."}</Badge>}
-                        {yp > 0 && <Badge col={C.teal} sz={10}>{yp.toFixed(1)}%</Badge>}
+                        {isFood() && yp > 0 && <Badge col={C.teal} sz={10}>{yp.toFixed(1)}%</Badge>}
                       </div>
-                      {(g > 0 || n > 0) && (
+                      {isFood() && (g > 0 || n > 0) && (
                         <div style={{ display: "flex", gap: 10, padding: "6px 10px", background: C.sur, borderRadius: 6, fontSize: 11 }}>
                           {g > 0 && <span><span style={{ color: C.dim }}>{T.bruttoLabel} </span><span className="mono" style={{ color: C.text }}>{fmt(g)} {card.outputUnit}</span></span>}
                           {n > 0 && <span><span style={{ color: C.dim }}>{T.nettoLabel} </span><span className="mono" style={{ color: C.green }}>{fmt(n)} {card.outputUnit}</span></span>}
@@ -3563,7 +4159,7 @@ export default function App() {
                           })}
                         </div>
                       )}
-                      {(function() {
+                      {isFood() && (function() {
                         var nut = calcNutrition(card, cards, products);
                         var hasNut = nut.calories > 0 || nut.proteins > 0;
                         var perServ = +card.outputQty || 1;
@@ -3601,6 +4197,8 @@ export default function App() {
           <TabTransition tabKey="nom"><div className="nom-layout" style={{ maxWidth: 1360, margin: "0 auto", padding: "12px 10px", display: "grid", gridTemplateColumns: "210px 1fr", gap: 16, alignItems: "start" }}>
             {/* Sidebar */}
             <div className="nom-sidebar" style={{ background: C.card, border: "1px solid " + C.border, borderRadius: 10, padding: 11, position: "sticky", top: 70 }}>
+              {/* Org switcher */}
+              <OrgSwitcher user={user} onUserUpdate={function(u) { setUser(u); }} onOrgSwitch={onOrgSwitch} />
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 9 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, color: C.mid, textTransform: "uppercase", letterSpacing: 0.7 }}>{T.folders}</span>
                 <Btn v="ghost" sz="xs" onClick={function() { setModal({ type: "newFolder" }); }}><IPlus s={10} /> {T.folderCreate}</Btn>
@@ -3629,7 +4227,7 @@ export default function App() {
               <div style={{ height: 1, background: C.border, margin: "9px 0" }} />
               <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, color: C.mid, textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 2 }}>Тип</span>
-                {[{ k: "ALL", l: "Все типы", c: C.mid }].concat(NT_KEYS.map(function(k) { return { k: k, l: ntLabel(k), c: ntColor(k) }; })).map(function(t) {
+                {[{ k: "ALL", l: "Все типы", c: C.mid }].concat(getNtKeys().map(function(k) { return { k: k, l: ntLabel(k), c: ntColor(k) }; })).map(function(t) {
                   var sel = filterType === t.k;
                   return (
                     <button key={t.k} onClick={function() { setFilterType(t.k); }}
@@ -3649,7 +4247,7 @@ export default function App() {
             {/* Main */}
             <div>
               <div className="nom-stats" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 7, marginBottom: 14 }}>
-                {NT_KEYS.map(function(k, i) {
+                {getNtKeys().map(function(k, i) {
                   var cnt = products.filter(function(p) { return p.nomType === k; }).length;
                   var isActive = filterType === "ALL" || filterType === k;
                   return (
@@ -3754,12 +4352,12 @@ export default function App() {
           </Modal>
         )}
         {modal && modal.type === "newCard" && (
-          <Modal title={T.modalNewCard} sub={T.modalNewCardSub} width={980} onClose={function() { setModal(null); }}>
+          <Modal title={getNewCardLabel()} sub={isFood() ? T.modalNewCardSub : T.specNewSub} width={980} onClose={function() { setModal(null); }}>
             <CardForm products={products} cards={cards} onSave={function(c) { saveCard(c); }} onClose={function() { setModal(null); }} />
           </Modal>
         )}
         {modal && modal.type === "editCard" && (
-          <Modal title={T.modalEditCard} width={980} onClose={function() { setModal(null); }}>
+          <Modal title={getEditCardLabel()} width={980} onClose={function() { setModal(null); }}>
             <CardForm init={modal.data} products={products} cards={cards}
               onSave={function(c) { saveCard(c); }}
               onClose={function() { setModal(null); }} />
@@ -3794,8 +4392,8 @@ export default function App() {
               <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
                 {modal.data.outputQty && <Badge col={C.blue}>{T.outputLabel}: {modal.data.outputQty} {modal.data.outputUnit}</Badge>}
                 {(function() { var tc = totalCost(modal.data, cards, products); return tc > 0 ? <Badge col={C.green}>{fmt(tc)} {T.currency} · {fmt(tc / (+modal.data.outputQty || 1))} {T.currency}/{T.perUnit}</Badge> : null; })()}
-                {modal.data.grossWeight && <Badge col={C.acc}>{T.bruttoLabel} {modal.data.grossWeight} {modal.data.outputUnit}</Badge>}
-                {modal.data.netWeight && <Badge col={C.green}>{T.nettoLabel} {modal.data.netWeight} {modal.data.outputUnit}</Badge>}
+                {isFood() && modal.data.grossWeight && <Badge col={C.acc}>{T.bruttoLabel} {modal.data.grossWeight} {modal.data.outputUnit}</Badge>}
+                {isFood() && modal.data.netWeight && <Badge col={C.green}>{T.nettoLabel} {modal.data.netWeight} {modal.data.outputUnit}</Badge>}
               </div>
               <div style={{ background: C.bg, borderRadius: 8, padding: 12, border: "1px solid " + C.border }}>
                 <IngTree cardId={modal.data.id} allCards={cards} allProducts={products} depth={0} />
