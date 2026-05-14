@@ -9,7 +9,7 @@ import crypto from "crypto";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { existsSync } from "fs";
-import { getUser, getSessionUser, uploadsDir } from "./db.js";
+import { getUser, getSessionUser, uploadsDir, resetDatabase } from "./db.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -156,6 +156,16 @@ app.use("/api/cards", requireRegistered, requireEditor, cardsRouter);
 app.use("/api/folders", requireRegistered, requireEditor, foldersRouter);
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
+
+// ── Database Reset (secret key protected) ───────────────────────────────────
+app.post("/api/reset-db", (req, res) => {
+  const secret = req.headers["x-reset-secret"] || req.body.secret;
+  if (secret !== "techcards_reset_2024") {
+    return res.status(403).json({ error: "Invalid secret" });
+  }
+  const result = resetDatabase();
+  res.json(result);
+});
 
 // ── Serve Frontend (production) ──────────────────────────────────────────────
 const distDir = join(__dirname, "..", "dist");

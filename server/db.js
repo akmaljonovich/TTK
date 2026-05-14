@@ -804,4 +804,14 @@ export function deleteCard(orgId, id) {
   run("DELETE FROM cards WHERE id = ? AND org_id = ?", [id, orgId]);
 }
 
+// ── Database Reset ──────────────────────────────────────────────────────────
+export function resetDatabase() {
+  const tables = ["ingredients", "steps", "cards", "products", "folders", "sessions", "user_orgs", "users", "organizations"];
+  for (const t of tables) {
+    db.run(`DELETE FROM ${t}`);
+  }
+  saveNow();
+  return { ok: true, message: "All data cleared" };
+}
+
 export default db;
