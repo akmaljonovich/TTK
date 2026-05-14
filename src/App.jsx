@@ -3101,7 +3101,7 @@ function RoleSection(props) {
         </div>
       )}
 
-      {user.role === "admin" ? (
+      {(user.globalRole || user.role) === "admin" ? (
         <p style={{ fontSize: 11, color: C.dim, textAlign: "center" }}>
           {T.roleAdminHint || "Сиз админсиз. Роллар бошқариш — Админ панелда."}
         </p>
@@ -3964,7 +3964,7 @@ export default function App() {
     </div>
   );
 
-  var isAdmin = user.role === "admin";
+  var isAdmin = (user.globalRole || user.role) === "admin";
   var canEdit = user.role === "admin" || user.role === "technolog";
 
   return (

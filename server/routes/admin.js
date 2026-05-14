@@ -4,7 +4,9 @@ import { getAllOrgs, getAllUsers, setUserRole, getOrgData } from "../db.js";
 const router = Router();
 
 function requireAdmin(req, res, next) {
-  if (!req.user || req.user.role !== "admin") {
+  // Check global role (users table), not org-level role (user_orgs)
+  // Only the first registered user or manually promoted admins can access
+  if (!req.user || req.user.globalRole !== "admin") {
     return res.status(403).json({ error: "Admin only" });
   }
   next();

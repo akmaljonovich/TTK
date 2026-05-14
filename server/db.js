@@ -121,7 +121,7 @@ db.run(`CREATE TABLE IF NOT EXISTS organizations (
 
 db.run(`CREATE TABLE IF NOT EXISTS user_orgs (
   user_id TEXT NOT NULL, org_id TEXT NOT NULL,
-  role TEXT NOT NULL DEFAULT 'admin',
+  role TEXT NOT NULL DEFAULT 'user',
   PRIMARY KEY (user_id, org_id)
 )`);
 
@@ -211,7 +211,7 @@ try {
   for (const u of usersWithOrg) {
     const exists = queryOne("SELECT user_id FROM user_orgs WHERE user_id = ? AND org_id = ?", [u.id, u.org_id]);
     if (!exists) {
-      db.run("INSERT OR IGNORE INTO user_orgs (user_id, org_id, role) VALUES (?,?,?)", [u.id, u.org_id, u.role || "admin"]);
+      db.run("INSERT OR IGNORE INTO user_orgs (user_id, org_id, role) VALUES (?,?,?)", [u.id, u.org_id, u.role || "user"]);
     }
   }
   db.run("UPDATE users SET active_org_id = org_id WHERE active_org_id IS NULL AND org_id IS NOT NULL");
@@ -256,6 +256,7 @@ function mapUser(u) {
     age: u.age, city: u.city, position: u.position,
     workplace: u.workplace, purpose: u.purpose,
     role: uo ? uo.role : (u.role || "user"),
+    globalRole: u.role || "user",
     theme: u.theme, registered: !!u.registered,
     login: u.login || "", avatar: u.avatar || "",
     orgType: org ? org.type : "food",
@@ -326,14 +327,16 @@ export function registerUser(tgId, data) {
 
   const orgId = genId();
   const userId = genId();
-  const role = "admin";
+  // First user in the system becomes admin, all others are regular users
+  const totalUsers = queryOne("SELECT COUNT(*) as cnt FROM users WHERE registered = 1");
+  const role = (!totalUsers || totalUsers.cnt === 0) ? "admin" : "user";
   const validTypes = ["food", "manufacturing", "construction"];
   const orgType = validTypes.includes(data.orgType) ? data.orgType : "food";
 
   db.run("INSERT INTO organizations (id, name, type) VALUES (?,?,?)", [orgId, workplace || "Организация", orgType]);
   db.run("INSERT INTO users (id, tg_id, org_id, active_org_id, name, age, city, position, workplace, purpose, role, theme, registered, login, password_hash) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,1,?,?)",
     [userId, String(tgId), orgId, orgId, name, age, city, position, workplace, purpose, role, "dark", login, data.password ? hashPassword(data.password) : ""]);
-  db.run("INSERT INTO user_orgs (user_id, org_id, role) VALUES (?,?,?)", [userId, orgId, "admin"]);
+  db.run("INSERT INTO user_orgs (user_id, org_id, role) VALUES (?,?,?)", [userId, orgId, role]);
   save();
 
   return getUser(tgId);
