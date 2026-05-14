@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3001;
 const BOT_TOKEN = process.env.BOT_TOKEN || "";
 
 // ── Global Middleware ────────────────────────────────────────────────────────
-app.use(compression());                          // Gzip — 60-80% smaller responses
+app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use("/api/uploads", express.static(uploadsDir));
@@ -175,6 +175,8 @@ app.use((err, _req, res, _next) => {
 });
 
 // ── Start ────────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`[Server] http://localhost:${PORT}`);
 });
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;

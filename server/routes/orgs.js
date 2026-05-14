@@ -15,6 +15,9 @@ router.post("/", (req, res) => {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
   const { name, type } = req.body;
   if (!name || !name.trim()) return res.status(400).json({ error: "Name required" });
+  if (name.trim().length > 100) return res.status(400).json({ error: "Name too long" });
+  const orgs = getUserOrgs(req.user.id);
+  if (orgs.length >= 10) return res.status(400).json({ error: "Max 10 organizations" });
   const org = createOrg(req.user.id, name.trim(), type || "food");
   const user = getUser(req.tgId);
   res.json({ ok: true, org, user });
@@ -31,11 +34,17 @@ router.post("/switch", (req, res) => {
   res.json({ ok: true, user });
 });
 
-// Update org name/type
+// Update org name/type — only admin of that org
 router.put("/:id", (req, res) => {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
+  const orgs = getUserOrgs(req.user.id);
+  const membership = orgs.find(o => o.id === req.params.id);
+  if (!membership || membership.role !== "admin") {
+    return res.status(403).json({ error: "Only org admin can update" });
+  }
   const { name, type } = req.body;
-  updateOrg(req.params.id, name, type);
+  if (name && name.trim().length > 100) return res.status(400).json({ error: "Name too long" });
+  updateOrg(req.params.id, name ? name.trim() : null, type);
   res.json({ ok: true });
 });
 

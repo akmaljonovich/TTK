@@ -78,9 +78,13 @@ router.post("/reset-password", (req, res) => {
   const { login, newPassword } = req.body;
   if (!login || !newPassword) return res.status(400).json({ error: "Missing data" });
   if (newPassword.length < 4) return res.status(400).json({ error: "Password too short" });
-  const result = resetPassword(login, newPassword);
-  if (!result.ok) return res.status(404).json({ error: result.error });
-  res.json({ ok: true });
+  // Admin can reset any password; user can reset their own
+  if (req.user && (req.user.role === "admin" || req.user.login === login)) {
+    const result = resetPassword(login, newPassword);
+    if (!result.ok) return res.status(404).json({ error: result.error });
+    return res.json({ ok: true });
+  }
+  return res.status(403).json({ error: "Not authorized" });
 });
 
 router.post("/logout", (req, res) => {
