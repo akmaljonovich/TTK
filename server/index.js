@@ -64,6 +64,7 @@ const openRoutes = [
   "/api/auth/reset-password",
   "/api/auth/admin-contact",
   "/api/health",
+  "/api/reset-db",
 ];
 
 app.use((req, res, next) => {
