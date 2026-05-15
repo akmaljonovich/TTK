@@ -5,7 +5,6 @@ const router = Router();
 
 function requireAdmin(req, res, next) {
   // Check global role (users table), not org-level role (user_orgs)
-  // Only the first registered user or manually promoted admins can access
   if (!req.user || req.user.globalRole !== "admin") {
     return res.status(403).json({ error: "Admin only" });
   }
@@ -14,25 +13,30 @@ function requireAdmin(req, res, next) {
 
 router.use(requireAdmin);
 
-router.get("/orgs", (req, res) => {
-  res.json(getAllOrgs());
+router.get("/orgs", (req, res, next) => {
+  try { res.json(getAllOrgs()); }
+  catch (e) { next(e); }
 });
 
-router.get("/users", (req, res) => {
-  res.json(getAllUsers());
+router.get("/users", (req, res, next) => {
+  try { res.json(getAllUsers()); }
+  catch (e) { next(e); }
 });
 
-router.get("/orgs/:id", (req, res) => {
-  res.json(getOrgData(req.params.id));
+router.get("/orgs/:id", (req, res, next) => {
+  try { res.json(getOrgData(req.params.id)); }
+  catch (e) { next(e); }
 });
 
-router.post("/users/:tgId/role", (req, res) => {
-  const { role } = req.body;
-  if (!["user", "technolog", "admin"].includes(role)) {
-    return res.status(400).json({ error: "Invalid role" });
-  }
-  setUserRole(req.params.tgId, role);
-  res.json({ ok: true });
+router.post("/users/:tgId/role", (req, res, next) => {
+  try {
+    const { role } = req.body;
+    if (!["user", "technolog", "admin"].includes(role)) {
+      return res.status(400).json({ error: "Invalid role" });
+    }
+    setUserRole(req.params.tgId, role);
+    res.json({ ok: true });
+  } catch (e) { next(e); }
 });
 
 export default router;

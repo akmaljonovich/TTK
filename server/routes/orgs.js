@@ -4,14 +4,16 @@ import { getUserOrgs, createOrg, switchOrg, updateOrg, deleteOrg, getUser } from
 const router = Router();
 
 // List user's organizations
-router.get("/", (req, res) => {
-  if (!req.user) return res.status(401).json({ error: "Unauthorized" });
-  const orgs = getUserOrgs(req.user.id);
-  res.json(orgs);
+router.get("/", (req, res, next) => {
+  try {
+    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
+    const orgs = getUserOrgs(req.user.id);
+    res.json(orgs);
+  } catch (e) { next(e); }
 });
 
 // Create a new organization
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => { try {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
   const { name, type } = req.body;
   if (!name || !name.trim()) return res.status(400).json({ error: "Name required" });
@@ -21,10 +23,10 @@ router.post("/", (req, res) => {
   const org = createOrg(req.user.id, name.trim(), type || "food");
   const user = getUser(req.tgId);
   res.json({ ok: true, org, user });
-});
+} catch (e) { next(e); } });
 
 // Switch active organization
-router.post("/switch", (req, res) => {
+router.post("/switch", (req, res, next) => { try {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
   const { orgId } = req.body;
   if (!orgId) return res.status(400).json({ error: "orgId required" });
@@ -32,10 +34,10 @@ router.post("/switch", (req, res) => {
   if (!ok) return res.status(403).json({ error: "Not a member" });
   const user = getUser(req.tgId);
   res.json({ ok: true, user });
-});
+} catch (e) { next(e); } });
 
 // Update org name/type — only admin of that org
-router.put("/:id", (req, res) => {
+router.put("/:id", (req, res, next) => { try {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
   const orgs = getUserOrgs(req.user.id);
   const membership = orgs.find(o => o.id === req.params.id);
@@ -46,15 +48,15 @@ router.put("/:id", (req, res) => {
   if (name && name.trim().length > 100) return res.status(400).json({ error: "Name too long" });
   updateOrg(req.params.id, name ? name.trim() : null, type);
   res.json({ ok: true });
-});
+} catch (e) { next(e); } });
 
 // Delete an organization
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res, next) => { try {
   if (!req.user) return res.status(401).json({ error: "Unauthorized" });
   const ok = deleteOrg(req.user.id, req.params.id);
   if (!ok) return res.status(403).json({ error: "Not admin or not member" });
   const user = getUser(req.tgId);
   res.json({ ok: true, user });
-});
+} catch (e) { next(e); } });
 
 export default router;

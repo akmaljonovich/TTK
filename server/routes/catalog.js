@@ -1,22 +1,23 @@
 import { Router } from "express";
+import crypto from "crypto";
 import { PRODUCT_CATALOG, DISH_CATALOG } from "../catalog.js";
 import { getProducts, upsertProduct, getFolders, upsertFolder, getCards, upsertCard } from "../db.js";
 
 const router = Router();
 
-function genId() { return Math.random().toString(36).slice(2, 10); }
+function genId() { return crypto.randomBytes(12).toString("hex"); }
 
 // Get available catalog
-router.get("/products", (req, res) => {
-  res.json(PRODUCT_CATALOG);
+router.get("/products", (req, res, next) => {
+  try { res.json(PRODUCT_CATALOG); } catch (e) { next(e); }
 });
 
-router.get("/dishes", (req, res) => {
-  res.json(DISH_CATALOG);
+router.get("/dishes", (req, res, next) => {
+  try { res.json(DISH_CATALOG); } catch (e) { next(e); }
 });
 
 // Import products from catalog
-router.post("/import-products", (req, res) => {
+router.post("/import-products", (req, res, next) => { try {
   const orgId = req.orgId;
   if (!orgId) return res.status(403).json({ error: "Not registered" });
 
@@ -64,10 +65,10 @@ router.post("/import-products", (req, res) => {
   });
 
   res.json({ ok: true, imported });
-});
+} catch (e) { next(e); } });
 
 // Import dish as tech card
-router.post("/import-dish", (req, res) => {
+router.post("/import-dish", (req, res, next) => { try {
   const orgId = req.orgId;
   if (!orgId) return res.status(403).json({ error: "Not registered" });
 
@@ -121,10 +122,10 @@ router.post("/import-dish", (req, res) => {
 
   upsertCard(orgId, card);
   res.json({ ok: true, cardId: card.id });
-});
+} catch (e) { next(e); } });
 
 // Import from Excel data (parsed on frontend)
-router.post("/import-excel", (req, res) => {
+router.post("/import-excel", (req, res, next) => { try {
   const orgId = req.orgId;
   if (!orgId) return res.status(403).json({ error: "Not registered" });
 
@@ -170,10 +171,10 @@ router.post("/import-excel", (req, res) => {
   });
 
   res.json({ ok: true, imported, skipped });
-});
+} catch (e) { next(e); } });
 
 // Batch update prices
-router.post("/batch-prices", (req, res) => {
+router.post("/batch-prices", (req, res, next) => { try {
   const orgId = req.orgId;
   if (!orgId) return res.status(403).json({ error: "Not registered" });
 
@@ -193,6 +194,6 @@ router.post("/batch-prices", (req, res) => {
   });
 
   res.json({ ok: true, updated });
-});
+} catch (e) { next(e); } });
 
 export default router;

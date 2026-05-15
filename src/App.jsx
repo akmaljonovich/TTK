@@ -3935,7 +3935,9 @@ export default function App() {
     });
   }, [products, search, selFolder, filterType, folders]);
 
-  var filteredCards = cards.filter(function(c) { return c.name.toLowerCase().indexOf(search.toLowerCase()) >= 0; });
+  var filteredCards = useMemo(function() {
+    return cards.filter(function(c) { return c.name.toLowerCase().indexOf(search.toLowerCase()) >= 0; });
+  }, [cards, search]);
 
   if (!authChecked) return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", background: C.bg, color: C.mid, fontFamily: "'Inter',sans-serif", gap: 16 }}>
@@ -4120,7 +4122,7 @@ export default function App() {
                         </div>
                         {canEdit && <div style={{ display: "flex", gap: 4 }}>
                           <Btn v="ghost" sz="xs" onClick={function() { setModal({ type: "editCard", data: card }); }}><IEdit s={11} /></Btn>
-                          <Btn v="danger" sz="xs" onClick={function() { deleteCard(card.id); }}><ITrash s={11} /></Btn>
+                          <Btn v="danger" sz="xs" onClick={function() { if (confirm(T.deleteConfirm || "Ўчирилсинми?")) deleteCard(card.id); }}><ITrash s={11} /></Btn>
                         </div>}
                       </div>
                       <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
@@ -4221,7 +4223,7 @@ export default function App() {
               {rootFolders.map(function(f) {
                 return <FolderNode key={f.id} folder={f} folders={folders} products={products}
                   selected={selFolder} onSelect={setSelFolder}
-                  onDel={function(id) { deleteFolderFn(id); if (selFolder === id) setSelFolder("ALL"); }} />;
+                  onDel={function(id) { if (confirm(T.deleteConfirm || "Ўчирилсинми?")) { deleteFolderFn(id); if (selFolder === id) setSelFolder("ALL"); } }} />;
               })}
               {rootFolders.length === 0 && <p style={{ fontSize: 11, color: C.dim, textAlign: "center", padding: "6px 0" }}>{T.folderNoFolders}</p>}
               <div style={{ height: 1, background: C.border, margin: "9px 0" }} />
@@ -4323,7 +4325,7 @@ export default function App() {
                             {canEdit && <td style={{ padding: "8px 11px" }}>
                               <div style={{ display: "flex", gap: 4 }}>
                                 <Btn v="ghost" sz="xs" onClick={function() { setModal({ type: "editNom", data: p }); }}><IEdit s={11} /></Btn>
-                                <Btn v="danger" sz="xs" onClick={function() { deleteProd(p.id); }}><ITrash s={11} /></Btn>
+                                <Btn v="danger" sz="xs" onClick={function() { if (confirm(T.deleteConfirm || "Ўчирилсинми?")) deleteProd(p.id); }}><ITrash s={11} /></Btn>
                               </div>
                             </td>}
                           </tr>

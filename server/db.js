@@ -283,16 +283,9 @@ function mapProduct(r) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 export function getAdminContact() {
-  // Check user_orgs first for accurate role
-  const a = queryOne(`SELECT u.name, u.tg_id, u.position, u.workplace
-    FROM users u INNER JOIN user_orgs uo ON u.id = uo.user_id
-    WHERE uo.role = 'admin'`);
-  if (!a) {
-    // Fallback to users table
-    const b = queryOne("SELECT name, tg_id, position, workplace FROM users WHERE role = 'admin'");
-    if (!b) return null;
-    return { name: b.name, tgId: b.tg_id, position: b.position, workplace: b.workplace };
-  }
+  // Find the global admin (first registered user / manually promoted)
+  const a = queryOne("SELECT name, tg_id, position, workplace FROM users WHERE role = 'admin' ORDER BY created_at ASC");
+  if (!a) return null;
   return { name: a.name, tgId: a.tg_id, position: a.position, workplace: a.workplace };
 }
 
@@ -497,8 +490,15 @@ export function changePassword(tgId, oldPassword, newPassword) {
   if (!newPassword || newPassword.length < 4) return { ok: false, error: "password_too_short" };
   const row = queryOne("SELECT password_hash FROM users WHERE tg_id = ?", [String(tgId)]);
   if (!row) return { ok: false, error: "user_not_found" };
-  if (row.password_hash && row.password_hash !== hashPassword(oldPassword)) {
-    return { ok: false, error: "wrong_password" };
+  if (row.password_hash) {
+    // Constant-time comparison to prevent timing attacks
+    const hash = hashPassword(oldPassword);
+    if (hash.length !== row.password_hash.length) return { ok: false, error: "wrong_password" };
+    let match = true;
+    for (let i = 0; i < hash.length; i++) {
+      if (hash[i] !== row.password_hash[i]) match = false;
+    }
+    if (!match) return { ok: false, error: "wrong_password" };
   }
   run("UPDATE users SET password_hash=? WHERE tg_id=?", [hashPassword(newPassword), String(tgId)]);
   return { ok: true };
@@ -589,13 +589,16 @@ export function getAllOrgs() {
 
 export function getAllUsers() {
   return queryAll(`
-    SELECT u.*, o.name as org_name
-    FROM users u LEFT JOIN organizations o ON u.org_id = o.id
+    SELECT u.*, o.name as org_name,
+      (SELECT uo.role FROM user_orgs uo WHERE uo.user_id = u.id AND uo.org_id = COALESCE(u.active_org_id, u.org_id) LIMIT 1) as org_role
+    FROM users u LEFT JOIN organizations o ON COALESCE(u.active_org_id, u.org_id) = o.id
     ORDER BY u.created_at DESC
   `).map(u => ({
     id: u.id, tgId: u.tg_id, orgId: u.org_id, orgName: u.org_name,
     name: u.name, age: u.age, city: u.city, position: u.position,
-    workplace: u.workplace, purpose: u.purpose, role: u.role,
+    workplace: u.workplace, purpose: u.purpose,
+    role: u.org_role || u.role || "user",
+    globalRole: u.role || "user",
     registered: !!u.registered, createdAt: u.created_at,
   }));
 }
@@ -656,11 +659,25 @@ export function upsertFolder(orgId, f) {
 }
 
 export function deleteFolder(orgId, id) {
-  // Unlink products from this folder before deleting
-  db.run("UPDATE products SET folder_id = NULL WHERE folder_id = ? AND org_id = ?", [id, orgId]);
-  // Also delete child folders
-  db.run("DELETE FROM folders WHERE parent_id = ? AND org_id = ?", [id, orgId]);
-  run("DELETE FROM folders WHERE id = ? AND org_id = ?", [id, orgId]);
+  // Recursively collect all descendant folder IDs
+  const toDelete = [id];
+  function collectChildren(parentId) {
+    const children = queryAll("SELECT id FROM folders WHERE parent_id = ? AND org_id = ?", [parentId, orgId]);
+    for (const c of children) {
+      toDelete.push(c.id);
+      collectChildren(c.id);
+    }
+  }
+  collectChildren(id);
+  // Unlink products from all folders being deleted
+  for (const fid of toDelete) {
+    db.run("UPDATE products SET folder_id = NULL WHERE folder_id = ? AND org_id = ?", [fid, orgId]);
+  }
+  // Delete all folders in reverse order (children first)
+  for (const fid of toDelete.reverse()) {
+    db.run("DELETE FROM folders WHERE id = ? AND org_id = ?", [fid, orgId]);
+  }
+  save();
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
